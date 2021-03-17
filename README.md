@@ -91,3 +91,10 @@ Pre Run Command:
  2. php artisan config:clear
 
 Command Process:
+handle +/% search bar.
+$content = $this->processSearch($value);
+$this->query->where(\DB::raw('BINARY name'), 'like' ,"%$content%");
+			
+public function processSearch($input_search = ""){
+        return addcslashes($input_search, '!@#$%^&*()_-+');
+    }
