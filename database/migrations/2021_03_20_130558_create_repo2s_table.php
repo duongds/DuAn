@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRepoTestTable extends Migration
+class CreateRepo2sTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateRepoTestTable extends Migration
      */
     public function up()
     {
-        Schema::create('repo_test', function (Blueprint $table) {
+        Schema::create('repo2s', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('job_id')->nullable();
+            $table->string('job_name')->unique();
             $table->string('address');
             $table->timestamps();
             $table->softDeletesTz($column = 'deleted_at', $precision = 0);
@@ -30,6 +29,6 @@ class CreateRepoTestTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('repo_test');
+        Schema::dropIfExists('repo2s');
     }
 }
