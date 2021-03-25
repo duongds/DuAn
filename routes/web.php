@@ -18,5 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('repo1',Repo1Controller::class);
-Route::resource('repo2',Repo2Controller::class);
+//Route::resource('repo1',Repo1Controller::class);
+//Route::resource('repo2',Repo2Controller::class);
