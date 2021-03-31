@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->time('duration')->nullable();
             $table->string('film_description')->nullable();
             $table->timestamps();
-            $table->softDeletes();
+            //$table->softDeletes();
         });
     }
 
