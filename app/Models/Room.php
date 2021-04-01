@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Room extends Model
 {
     use HasFactory,SoftDeletes;
+    protected $fillable=[
+        'cinema_id',
+        'name',
+        'type'
+    ];
 }

@@ -1,66 +1,106 @@
 <?php
 namespace App\Repositories;
-use Illuminate\Database\Eloquent\Model;
 
-abstract class BaseRepository implements RepositoryInterface
+abstract class BaseRepository
 {
-    // model property on class instances
-    protected $model;
+    /**
+     * @var \Illuminate\Database\Eloquent\Model
+     */
+    protected $_model;
 
-    // Constructor to bind model to repo
-    public function __construct(Model $model)
+    /**
+     * EloquentRepository constructor.
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public function __construct()
     {
-        $this->model = $model;
+        $this->setModel();
     }
 
-    // Get all instances of model
-    public function all()
+    /**
+     * get model
+     * @return string
+     */
+    abstract public function getModel();
+
+    /**
+     * Set model
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public function setModel()
     {
-        return $this->model->all();
+        $this->_model = app()->make(
+            $this->getModel()
+        );
     }
 
-    // create a new record in the database
+    /**
+     * Get All
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getAll()
+    {
+
+        return $this->_model->all();
+    }
+
+    /**
+     * Get one
+     * @param $id
+     * @return mixed
+     */
+    public function find($id)
+    {
+        $result = $this->_model->find($id);
+
+        return $result;
+    }
+
+    /**
+     * Create
+     * @param array $data
+     * @return mixed
+     */
     public function create(array $data)
     {
-        return $this->model->create($data);
+
+        return $this->_model->create($data);
     }
 
-    // update record in the database
-    public function update(array $data, $id)
+    /**
+     * Update
+     * @param array $data
+     * @param $id
+     * @return bool|mixed
+     */
+    public function update( array $data, $id)
     {
-        $record = $this->model->find($id);
-        return $record->update($data);
+        $result = $this->find($id);
+        if ($result) {
+            $result->update($data);
+            return $result;
+        }
+
+        return false;
     }
 
-    // remove record from the database
+    /**
+     * Delete
+     *
+     * @param $id
+     * @return bool
+     */
     public function delete($id)
     {
-        return $this->model->destroy($id);
+        $result = $this->find($id);
+        if ($result) {
+            $result->delete();
+
+            return true;
+        }
+
+        return false;
     }
 
-    // show the record with the given id
-    public function show($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    // Get the associated model
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    // Set the associated model
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
-    }
-
-    // Eager load database relationships
-    public function with($relations)
-    {
-        return $this->model->with($relations);
-    }
 }
 

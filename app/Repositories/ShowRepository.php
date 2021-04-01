@@ -1,14 +1,13 @@
 <?php
 namespace App\Repositories;
 
-class UserRepository extends BaseRepository{
+class ShowRepository extends BaseRepository{
     /**
      * get model
      * @return string
      */
     public function getModel()
     {
-        return \App\Models\User::class;
+        return \App\Models\Show::class;
     }
 }
-

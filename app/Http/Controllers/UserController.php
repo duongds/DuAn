@@ -8,8 +8,8 @@ use Illuminate\Http\Response;
 class UserController extends Controller
 {
     protected $userRepo;
-    public function __contruct(UserRepository  $userRepository){
-            $this->userRepo=$userRepository;
+    public function __construct(UserRepository  $userRepository){
+        $this->userRepo=$userRepository;
     }
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data=$this->userRepo->getUser();
+        $data=$this->userRepo->getAll();
         return response()->json($data,Response::HTTP_OK);
     }
 
@@ -27,10 +27,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+//    public function create()
+//    {
+//        //
+//    }
 
     /**
      * Store a newly created resource in storage.
@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if ($data = $this-> userRepo->createUser($request)){
+        if ($data = $this-> userRepo->create($request->all())){
             return response()->json($data, Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
@@ -53,8 +53,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //$data=$this->userRepo->($id);
-        //return response()->json($data,Response::HTTP_OK);
+        $data=$this->userRepo->find($id);
+        return response()->json($data,Response::HTTP_OK);
     }
 
     /**
@@ -63,21 +63,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
+//    public function edit($id)
+//    {
+//        //
+//    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->userRepo->updateUser($request, $id)) {
+        if ($data = $this->userRepo->update($request->all(),$id)) {
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
@@ -91,7 +91,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        if ($this->userRepo->deleteUser($id)) {
+        if ($this->userRepo->delete($id)) {
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
