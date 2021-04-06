@@ -17,11 +17,3 @@ Route::get('/', function () {
 });
 Route::resource('booking',\App\Http\Controllers\RoomController::class);
 Route::get('/test',[\App\Http\Controllers\CinemaController::class,'searchFromRoom']);
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('/login', [\App\Http\Controllers\AuthController::class,'login']);
-    Route::post('/signup', [\App\Http\Controllers\AuthController::class,'signup']);
-    Route::group(['middleware' => 'auth:api'], function() {
-        Route::get('/logout', [\App\Http\Controllers\AuthController::class,'logout']);
-        Route::get('/user', [\App\Http\Controllers\AuthController::class,'user']);
-    });
-});
