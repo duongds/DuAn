@@ -15,4 +15,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('booking',\App\Http\Controllers\BookingController::class);
+Route::resource('booking',\App\Http\Controllers\RoomController::class);
+Route::get('/test',[\App\Http\Controllers\CinemaController::class,'searchFromRoom']);

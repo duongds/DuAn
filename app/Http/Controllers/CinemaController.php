@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cinema;
+use App\Models\Room;
 use App\Repositories\CinemaRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -96,5 +99,12 @@ class CinemaController extends Controller
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
+    }
+    public function searchFromRoom(Request $request){
+        $room=$request->name;
+        $cinema=Cinema::whereHas('rooms', function (Builder $querry) use ($room) {
+            $querry->where('name',  $room);
+        })->get();
+        return $cinema;
     }
 }

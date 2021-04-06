@@ -14,4 +14,7 @@ class Room extends Model
         'name',
         'type'
     ];
+    public function cinema(){
+        return $this->belongsTo(Cinema::class);
+    }
 }
