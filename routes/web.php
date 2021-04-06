@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Repo1Controller;
+use App\Http\Controllers\RepoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+//Route::resource('repo1',Repo1Controller::class);
+//Route::resource('repo2',Repo2Controller::class);
