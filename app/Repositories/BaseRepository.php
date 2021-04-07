@@ -94,7 +94,6 @@ abstract class BaseRepository
     public function delete($id)
     {
         $result = $this->find($id);
-        dd($result);
         if ($result) {
             $result->delete();
 
