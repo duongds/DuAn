@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\Cinema;
-use App\Models\Room;
-use App\Repositories\CinemaRepository;
-use Illuminate\Database\Eloquent\Builder;
+use App\Http\Controllers\AppBaseController;
+
+use App\Repositories\RecommendRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class CinemaController extends Controller
+class RecommendController extends AppBaseController
 {
-    protected $cinemaRepo;
-    public function __construct(CinemaRepository  $cinemaRepository){
-        $this->cinemaRepo=$cinemaRepository;
+    protected $recommendRepo;
+    public function __construct(RecommendRepository  $recommendRepository){
+        $this->recommendRepo=$recommendRepository;
     }
     /**
      * Display a listing of the resource.
@@ -22,7 +21,7 @@ class CinemaController extends Controller
      */
     public function index()
     {
-        $data=$this->cinemaRepo->getAll();
+        $data=$this->recommendRepo->getAll();
         return response()->json($data,Response::HTTP_OK);
     }
 
@@ -44,7 +43,7 @@ class CinemaController extends Controller
      */
     public function store(Request $request)
     {
-        if ($data = $this-> cinemaRepo->create($request->all())){
+        if ($data = $this-> recommendRepo->create($request->all())){
             return response()->json($data, Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
@@ -57,7 +56,7 @@ class CinemaController extends Controller
      */
     public function show($id)
     {
-        $data=$this->cinemaRepo->find($id);
+        $data=$this->recommendRepo->find($id);
         return response()->json($data,Response::HTTP_OK);
     }
 
@@ -81,7 +80,7 @@ class CinemaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->cinemaRepo->update($request->all(),$id)) {
+        if ($data = $this->recommendRepo->update($request->all(),$id)) {
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
@@ -95,16 +94,9 @@ class CinemaController extends Controller
      */
     public function destroy($id)
     {
-        if ($this->cinemaRepo->delete($id)) {
+        if ($this->recommendRepo->delete($id)) {
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
-    }
-    public function searchFromRoom(Request $request){
-        $room=$request->name;
-        $cinema=Cinema::whereHas('rooms', function (Builder $querry) use ($room) {
-            $querry->where('name',  $room);
-        })->get();
-        return $cinema;
     }
 }

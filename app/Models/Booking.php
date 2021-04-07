@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Booking extends Model
 {
-    use HasFactory,SoftDeletes;
-    protected $fillable=[
+    use HasFactory, SoftDeletes;
+    protected $fillable = [
         'show_id',
         'booking_seat'
     ];

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 abstract class BaseRepository
@@ -73,7 +74,7 @@ abstract class BaseRepository
      * @param $id
      * @return bool|mixed
      */
-    public function update( array $data, $id)
+    public function update(array $data, $id)
     {
         $result = $this->find($id);
         if ($result) {
@@ -93,6 +94,7 @@ abstract class BaseRepository
     public function delete($id)
     {
         $result = $this->find($id);
+        dd($result);
         if ($result) {
             $result->delete();
 

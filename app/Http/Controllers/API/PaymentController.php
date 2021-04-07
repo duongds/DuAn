@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Repositories\RecommendRepository;
+use App\Http\Controllers\AppBaseController;
+
+use App\Repositories\PaymentRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class RecommendController extends Controller
+class PaymentController extends AppBaseController
 {
-    protected $recommendRepo;
-    public function __construct(RecommendRepository  $recommendRepository){
-        $this->recommendRepo=$recommendRepository;
+    protected $paymentRepo;
+    public function __construct(PaymentRepository  $paymentRepository){
+        $this->paymentRepo=$paymentRepository;
     }
     /**
      * Display a listing of the resource.
@@ -19,7 +21,7 @@ class RecommendController extends Controller
      */
     public function index()
     {
-        $data=$this->recommendRepo->getAll();
+        $data=$this->paymentRepo->getAll();
         return response()->json($data,Response::HTTP_OK);
     }
 
@@ -41,7 +43,7 @@ class RecommendController extends Controller
      */
     public function store(Request $request)
     {
-        if ($data = $this-> recommendRepo->create($request->all())){
+        if ($data = $this-> paymentRepo->create($request->all())){
             return response()->json($data, Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
@@ -54,7 +56,7 @@ class RecommendController extends Controller
      */
     public function show($id)
     {
-        $data=$this->recommendRepo->find($id);
+        $data=$this->paymentRepo->find($id);
         return response()->json($data,Response::HTTP_OK);
     }
 
@@ -78,7 +80,7 @@ class RecommendController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->recommendRepo->update($request->all(),$id)) {
+        if ($data = $this->paymentRepo->update($request->all(),$id)) {
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
@@ -92,7 +94,7 @@ class RecommendController extends Controller
      */
     public function destroy($id)
     {
-        if ($this->recommendRepo->delete($id)) {
+        if ($this->paymentRepo->delete($id)) {
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);

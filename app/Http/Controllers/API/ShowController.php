@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Repositories\PaymentRepository;
+use App\Http\Controllers\AppBaseController;
+
+use App\Repositories\ShowRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class PaymentController extends Controller
+class ShowController extends AppBaseController
 {
-    protected $paymentRepo;
-    public function __construct(PaymentRepository  $paymentRepository){
-        $this->paymentRepo=$paymentRepository;
+    protected $showRepo;
+    public function __construct(ShowRepository  $showRepository){
+        $this->showRepo=$showRepository;
     }
     /**
      * Display a listing of the resource.
@@ -19,7 +21,7 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $data=$this->paymentRepo->getAll();
+        $data=$this->showRepo->getAll();
         return response()->json($data,Response::HTTP_OK);
     }
 
@@ -41,7 +43,7 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        if ($data = $this-> paymentRepo->create($request->all())){
+        if ($data = $this-> showRepo->create($request->all())){
             return response()->json($data, Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
@@ -54,7 +56,7 @@ class PaymentController extends Controller
      */
     public function show($id)
     {
-        $data=$this->paymentRepo->find($id);
+        $data=$this->showRepo->find($id);
         return response()->json($data,Response::HTTP_OK);
     }
 
@@ -78,7 +80,7 @@ class PaymentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->paymentRepo->update($request->all(),$id)) {
+        if ($data = $this->showRepo->update($request->all(),$id)) {
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
@@ -92,7 +94,7 @@ class PaymentController extends Controller
      */
     public function destroy($id)
     {
-        if ($this->paymentRepo->delete($id)) {
+        if ($this->showRepo->delete($id)) {
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);

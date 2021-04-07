@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\AppBaseController;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
-use App\Models\User;
-class AuthController extends Controller
+
+class AuthController extends AppBaseController
 {
     /**
      * Create user
@@ -23,15 +26,14 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|confirmed'
         ]);
+        //Sử dụng Hash thay cho bcrypt nhé.
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
-                'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password)
         ]);
         $user->save();
-        return response()->json([
-            'message' => 'Successfully created user!'
-        ], 201);
+        return $this->sendResponse($user, 'Successfully created user!');
     }
 
     /**
@@ -52,7 +54,7 @@ class AuthController extends Controller
             'remember_me' => 'boolean'
         ]);
         $credentials = request(['email', 'password']);
-        if(!Auth::attempt($credentials))
+        if (!Auth::attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
@@ -60,15 +62,15 @@ class AuthController extends Controller
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me)
-            $token->expires_at = Carbon::now()->addWeeks(1);
+            $token->expires_at = Carbon::now()->addWeeks(env('SESSION_LIFETIME'));
         $token->save();
-        return response()->json([
+        return $this->sendResponse([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at
-            )->toDateTimeString()
-        ]);
+            )->toDateTimeString(),
+            'user' => $user], 200);
     }
 
     /**
@@ -89,8 +91,9 @@ class AuthController extends Controller
      *
      * @return [json] user object
      */
-    public function user(Request $request)
+    public function getUser()
     {
-        return response()->json($request->user());
+        $user = \Auth::user();
+        return $this->sendResponse($user, 200);
     }
 }

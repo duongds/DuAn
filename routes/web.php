@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('booking',\App\Http\Controllers\RoomController::class);
-Route::get('/test',[\App\Http\Controllers\CinemaController::class,'searchFromRoom']);
+Route::resource('booking', \App\Http\Controllers\API\BookingController::class);
+Route::get('/test', [\App\Http\Controllers\API\CinemaController::class, 'searchFromRoom']);
 Route::group(['prefix' => 'auth'], function () {
-    Route::post('/login', [\App\Http\Controllers\AuthController::class,'login']);
-    Route::post('/signup', [\App\Http\Controllers\AuthController::class,'signup']);
-    Route::group(['middleware' => 'auth:api'], function() {
-        Route::get('/logout', [\App\Http\Controllers\AuthController::class,'logout']);
-        Route::get('/user', [\App\Http\Controllers\AuthController::class,'user']);
+    Route::post('/login', [\App\Http\Controllers\API\AuthController::class, 'login']);
+    Route::post('/signup', [\App\Http\Controllers\API\AuthController::class, 'signup']);
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('/logout', [\App\Http\Controllers\API\AuthController::class, 'logout']);
+        Route::get('/user', [\App\Http\Controllers\API\AuthController::class, 'user']);
     });
 });

@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Repositories\BookingRepository;
+use App\Http\Controllers\AppBaseController;
+
+use App\Repositories\RoomRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class BookingController extends Controller
+class RoomController extends AppBaseController
 {
-    protected $bookingRepo;
-    public function __construct(BookingRepository $bookingRepository)
-    {
-        $this->bookingRepo=$bookingRepository;
+    protected $roomRepo;
+    public function __construct(RoomRepository  $roomRepository){
+        $this->roomRepo=$roomRepository;
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +21,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $data=$this->bookingRepo->getAll();
+        $data=$this->roomRepo->getAll();
         return response()->json($data,Response::HTTP_OK);
     }
 
@@ -30,10 +30,10 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+//    public function create()
+//    {
+//        //
+//    }
 
     /**
      * Store a newly created resource in storage.
@@ -43,21 +43,20 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        if ($data = $this-> bookingRepo->create($request->all())){
+        if ($data = $this-> roomRepo->create($request->all())){
             return response()->json($data, Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
     }
 
     /**
-     * Display the specified resource.
-     *
+     * Display the specified resource.*
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $data=$this->bookingRepo->find($id);
+        $data=$this->roomRepo->find($id);
         return response()->json($data,Response::HTTP_OK);
     }
 
@@ -67,21 +66,21 @@ class BookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
+//    public function edit($id)
+//    {
+//        //
+//    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->bookingRepo->update($request->all(),$id)) {
+        if ($data = $this->roomRepo->update($request->all(),$id)) {
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
@@ -95,7 +94,7 @@ class BookingController extends Controller
      */
     public function destroy($id)
     {
-        if ($this->bookingRepo->delete($id)) {
+        if ($this->roomRepo->delete($id)) {
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);

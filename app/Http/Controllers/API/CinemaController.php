@@ -1,17 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Repositories\RoomRepository;
+use App\Http\Controllers\AppBaseController;
+
+use App\Models\Cinema;
+use App\Repositories\CinemaRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class RoomController extends Controller
+class CinemaController extends AppBaseController
 {
-    protected $roomRepo;
-    public function __construct(RoomRepository  $roomRepository){
-        $this->roomRepo=$roomRepository;
+    protected $cinemaRepo;
+
+    public function __construct(CinemaRepository $cinemaRepository)
+    {
+        $this->cinemaRepo = $cinemaRepository;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +26,8 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $data=$this->roomRepo->getAll();
-        return response()->json($data,Response::HTTP_OK);
+        $data = $this->cinemaRepo->getAll();
+        return response()->json($data, Response::HTTP_OK);
     }
 
     /**
@@ -36,12 +43,12 @@ class RoomController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        if ($data = $this-> roomRepo->create($request->all())){
+        if ($data = $this->cinemaRepo->create($request->all())) {
             return response()->json($data, Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
@@ -49,19 +56,19 @@ class RoomController extends Controller
 
     /**
      * Display the specified resource.*
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $data=$this->roomRepo->find($id);
-        return response()->json($data,Response::HTTP_OK);
+        $data = $this->cinemaRepo->find($id);
+        return response()->json($data, Response::HTTP_OK);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
 //    public function edit($id)
@@ -78,7 +85,7 @@ class RoomController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->roomRepo->update($request->all(),$id)) {
+        if ($data = $this->cinemaRepo->update($request->all(), $id)) {
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
@@ -87,14 +94,23 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        if ($this->roomRepo->delete($id)) {
+        if ($this->cinemaRepo->delete($id)) {
             return response('success', Response::HTTP_OK);
         }
         return response('false', Response::HTTP_BAD_REQUEST);
+    }
+
+    public function searchFromRoom(Request $request)
+    {
+        $room = $request->name;
+        $cinema = Cinema::whereHas('rooms', function (Builder $querry) use ($room) {
+            $querry->where('name', $room);
+        })->get();
+        return $cinema;
     }
 }
