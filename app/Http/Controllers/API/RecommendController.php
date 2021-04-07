@@ -17,86 +17,65 @@ class RecommendController extends AppBaseController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         $data=$this->recommendRepo->getAll();
-        return response()->json($data,Response::HTTP_OK);
+        return $this->sendResponse($data,'Get Recommend successfully');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-//    public function create()
-//    {
-//        //
-//    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
         if ($data = $this-> recommendRepo->create($request->all())){
-            return response()->json($data, Response::HTTP_OK);
+            return $this->sendResponse($data,'Store recommend successfully');
         }
-        return response('false', Response::HTTP_BAD_REQUEST);
+        return $this->sendError('cant store recommend');
     }
 
     /**
      * Display the specified resource.*
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
         $data=$this->recommendRepo->find($id);
-        return response()->json($data,Response::HTTP_OK);
+        return $this->sendResponse($data,'Show recommend');
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-//    public function edit($id)
-//    {
-//        //
-//    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
         if ($data = $this->recommendRepo->update($request->all(),$id)) {
-            return response('success', Response::HTTP_OK);
+            return $this->sendResponse($data,'Update recommend successfully');
         }
-        return response('false', Response::HTTP_BAD_REQUEST);
+        return $this->sendError('cant update recommend');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
         if ($this->recommendRepo->delete($id)) {
-            return response('success', Response::HTTP_OK);
+            return $this->sendSuccess('delete successfully');
         }
-        return response('false', Response::HTTP_BAD_REQUEST);
+        return $this->sendError('cant delete');
     }
 }

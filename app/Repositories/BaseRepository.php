@@ -96,10 +96,8 @@ abstract class BaseRepository
         $result = $this->find($id);
         if ($result) {
             $result->delete();
-
             return true;
         }
-
         return false;
     }
 

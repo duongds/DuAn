@@ -24,18 +24,8 @@ class UserController extends AppBaseController
     public function index()
     {
         $data = $this->userRepo->getAll();
-        return response()->json($data, Response::HTTP_OK);
+        return $this->sendResponse($data,'get user successfully');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-//    public function create()
-//    {
-//        //
-//    }
 
     /**
      * Store a newly created resource in storage.
@@ -46,9 +36,9 @@ class UserController extends AppBaseController
     public function store(Request $request)
     {
         if ($data = $this->userRepo->create($request->all())) {
-            return response()->json($data, Response::HTTP_OK);
+            return $this->sendResponse($data,'store user successfully');
         }
-        return response('false', Response::HTTP_BAD_REQUEST);
+        return $this->sendError('cant store');
     }
 
     /**
@@ -59,19 +49,8 @@ class UserController extends AppBaseController
     public function show($id)
     {
         $data = $this->userRepo->find($id);
-        return response()->json($data, Response::HTTP_OK);
+        return $this->sendResponse($data,'show user successfully');
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
-     */
-//    public function edit($id)
-//    {
-//        //
-//    }
 
     /**
      * Update the specified resource in storage.
@@ -83,9 +62,9 @@ class UserController extends AppBaseController
     public function update(Request $request, $id)
     {
         if ($data = $this->userRepo->update($request->all(), $id)) {
-            return response('success', Response::HTTP_OK);
+            return $this->sendResponse($data,'update user successfully');
         }
-        return response('false', Response::HTTP_BAD_REQUEST);
+        return $this->sendError('cant update user');
     }
 
     /**
@@ -97,8 +76,8 @@ class UserController extends AppBaseController
     public function destroy($id)
     {
         if ($this->userRepo->delete($id)) {
-            return response('success', Response::HTTP_OK);
+            return $this->sendSuccess('delete successfully');
         }
-        return response('false', Response::HTTP_BAD_REQUEST);
+        return $this->sendError('cant delete user');
     }
 }
