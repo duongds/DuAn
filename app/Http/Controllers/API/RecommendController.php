@@ -33,7 +33,8 @@ class RecommendController extends AppBaseController
      */
     public function store(Request $request)
     {
-        if ($data = $this-> recommendRepo->create($request->all())){
+        $input = $request->all();
+        if ($data = $this-> recommendRepo->create($input)){
             return $this->sendResponse($data,'Store recommend successfully');
         }
         return $this->sendError('cant store recommend');
@@ -59,7 +60,8 @@ class RecommendController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->recommendRepo->update($request->all(),$id)) {
+        $input = $request->all();
+        if ($data = $this->recommendRepo->update($input,$id)) {
             return $this->sendResponse($data,'Update recommend successfully');
         }
         return $this->sendError('cant update recommend');

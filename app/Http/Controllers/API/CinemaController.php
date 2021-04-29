@@ -38,7 +38,8 @@ class CinemaController extends AppBaseController
      */
     public function store(Request $request)
     {
-        if ($data = $this->cinemaRepo->create($request->all())) {
+        $input = $request->all();
+        if ($data = $this->cinemaRepo->create($input)) {
             return $this->sendResponse($data,'Store cinema successfully');
         }
         return $this->sendError('cant store cinema');
@@ -64,7 +65,8 @@ class CinemaController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->cinemaRepo->update($request->all(), $id)) {
+        $input = $request->all();
+        if ($data = $this->cinemaRepo->update($input, $id)) {
             return $this->sendResponse($data,'Update cinema successfully');
         }
         return $this->sendError('cant update cinema');

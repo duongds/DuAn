@@ -35,7 +35,8 @@ class UserController extends AppBaseController
      */
     public function store(Request $request)
     {
-        if ($data = $this->userRepo->create($request->all())) {
+        $input = $request->all();
+        if ($data = $this->userRepo->create($input)) {
             return $this->sendResponse($data,'store user successfully');
         }
         return $this->sendError('cant store');
@@ -61,7 +62,8 @@ class UserController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->userRepo->update($request->all(), $id)) {
+        $input = $request->all();
+        if ($data = $this->userRepo->update($input, $id)) {
             return $this->sendResponse($data,'update user successfully');
         }
         return $this->sendError('cant update user');

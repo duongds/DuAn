@@ -35,7 +35,8 @@ class BookingController extends AppBaseController
      */
     public function store(Request $request)
     {
-        if ($data = $this->bookingRepo->create($request->all())) {
+        $input = $request->all();
+        if ($data = $this->bookingRepo->create($input)) {
             return $this->sendResponse($data, 'store booking successfully');
         }
         return $this->sendError('cant get list booking');
@@ -62,7 +63,8 @@ class BookingController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->bookingRepo->update($request->all(), $id)) {
+        $input = $request->all();
+        if ($data = $this->bookingRepo->update($input, $id)) {
             return $this->sendResponse($data, 'Get list booking successfully');
         }
         return $this->sendError('update list booking fail');

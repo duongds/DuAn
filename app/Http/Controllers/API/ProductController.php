@@ -32,7 +32,8 @@ class ProductController extends AppBaseController
      */
     public function store(Request $request)
     {
-        if ($data = $this-> productRepo->create($request->all())){
+        $input = $request->all();
+        if ($data = $this-> productRepo->create($input)){
             return $this->sendResponse($data,'Store product successfully');
         }
         return $this->sendError('cant update product');
@@ -58,7 +59,8 @@ class ProductController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->productRepo->update($request->all(),$id)) {
+        $input = $request->all();
+        if ($data = $this->productRepo->update($input,$id)) {
             return $this->sendResponse($data,'Update product successfully');
         }
         return $this->sendError('cant update product');

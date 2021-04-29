@@ -33,7 +33,8 @@ class PaymentController extends AppBaseController
      */
     public function store(Request $request)
     {
-        if ($data = $this-> paymentRepo->create($request->all())){
+        $input = $request->all();
+        if ($data = $this-> paymentRepo->create($input)){
             return $this->sendResponse($data,'Store payment successfully');
         }
         return $this->sendError('Cant store payment');
@@ -59,7 +60,8 @@ class PaymentController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->paymentRepo->update($request->all(),$id)) {
+        $input = $request->all();
+        if ($data = $this->paymentRepo->update($input,$id)) {
             return $this->sendResponse($data,'Update payment successfully');
         }
         return $this->sendError('Cant update payment');

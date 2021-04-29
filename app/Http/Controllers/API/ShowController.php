@@ -33,7 +33,8 @@ class ShowController extends AppBaseController
      */
     public function store(Request $request)
     {
-        if ($data = $this-> showRepo->create($request->all())){
+        $input = $request->all();
+        if ($data = $this-> showRepo->create($input)){
             return $this->sendResponse($data,'Store show successfully');
         }
         return $this->sendError('Cant store show');
@@ -59,7 +60,8 @@ class ShowController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->showRepo->update($request->all(),$id)) {
+        $input = $request->all();
+        if ($data = $this->showRepo->update($input,$id)) {
             return $this->sendResponse($data,'update successfully');
         }
         return $this->sendError('cant update show');

@@ -32,7 +32,8 @@ class RoomController extends AppBaseController
      */
     public function store(Request $request)
     {
-        if ($data = $this-> roomRepo->create($request->all())){
+        $input = $request->all();
+        if ($data = $this-> roomRepo->create($input)){
             return $this->sendResponse($data,'Store successfully');
         }
         return $this->sendError('cant store');
@@ -58,7 +59,8 @@ class RoomController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->roomRepo->update($request->all(),$id)) {
+        $input = $request->all();
+        if ($data = $this->roomRepo->update($input,$id)) {
             return $this->sendResponse($data,'Update room successfully');
         }
         return $this->sendError('cant update room');
