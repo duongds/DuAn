@@ -14,12 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:api', 'checkLockedUser'])->get('/user', function () {
+    Route::resource('booking', \App\Http\Controllers\API\BookingController::class);
 });
-Route::resource('booking', \App\Http\Controllers\API\BookingController::class);
-Route::resource('cinema', \App\Http\Controllers\API\CinemaController::class);
-Route::get('/test', [\App\Http\Controllers\API\CinemaController::class, 'searchFromRoom']);
+
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [\App\Http\Controllers\API\AuthController::class, 'login']);
     Route::post('/signup', [\App\Http\Controllers\API\AuthController::class, 'signup']);

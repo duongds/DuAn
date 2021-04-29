@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -14,16 +15,53 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert(
+        $user = [
             [
-                'name'=>'duong1',
-                'email'=>'buiduong2gmail.com',
-                'phone'=>'3045797845',
-                'address'=>'hanoi',
-                'city'=>'ha noi',
-                'role'=>'1',
-                'password'=>'duong'
-            ]
-        );
+                'name' => 'duong',
+                'email' => 'buiduong@gmail.com',
+                'phone' => '3045797845',
+                'address' => 'hanoi',
+                'city' => 'ha noi',
+                'role' => '1',
+                'password' => Hash::make('abc@ABC1')
+            ],
+            [
+                'name' => 'truong',
+                'email' => 'ntta@gmail.com',
+                'phone' => '3045797845',
+                'address' => 'hanoi',
+                'city' => 'ha noi',
+                'role' => '1',
+                'password' => Hash::make('abc@ABC1')
+            ],
+            [
+                'name' => 'choi',
+                'email' => 'choi@gmail.com',
+                'phone' => '3045797845',
+                'address' => 'hanoi',
+                'city' => 'ha noi',
+                'role' => '1',
+                'password' => Hash::make('abc@ABC1')
+            ],
+            [
+                'name' => 'cuong',
+                'email' => 'cuong@gmail.com',
+                'phone' => '3045797845',
+                'address' => 'hanoi',
+                'city' => 'ha noi',
+                'role' => '1',
+                'password' => Hash::make('abc@ABC1')
+            ],
+            [
+                'name' => 'thuy',
+                'email' => 'thuy@gmail.com',
+                'phone' => '3045797845',
+                'address' => 'hanoi',
+                'city' => 'ha noi',
+                'role' => '1',
+                'password' => Hash::make('abc@ABC1')
+            ],
+        ];
+        DB::table('users')->insert($user);
     }
 }

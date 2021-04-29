@@ -14,14 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call(
-            [CinemaSeeder::class]
-        );
-        $this->call(
-            [RoomSeeder::class]
-        );
-        $this->call(
-            [UserSeeder::class]
-        );
+        $this->call([
+            UserSeeder::class,
+
+        ]);
     }
 }

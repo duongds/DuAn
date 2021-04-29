@@ -16,9 +16,9 @@ class CreateShowsTable extends Migration
         Schema::create('shows', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('product_id')->nullable();
-            $table->string('Create_at')->nullable();
             $table->dateTime('show_time')->nullable();
-            $table->integer('room_id');
+            $table->integer('room_status');
+            $table->string('film_status')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

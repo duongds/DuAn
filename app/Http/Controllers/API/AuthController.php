@@ -22,7 +22,7 @@ class AuthController extends AppBaseController
      */
     public function signup(UserStoreRequest $request)
     {
-        $data=$request->validated();
+        $data = $request->validated();
         $user = new User([
             'name' => $data->name,
             'email' => $data->email,
@@ -40,7 +40,7 @@ class AuthController extends AppBaseController
      */
     public function login(UserRequest $request)
     {
-        $data=$request->validated();
+        $data = $request->validated();
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials))
             return response()->json([

@@ -16,7 +16,7 @@ class CreateRecommendsTable extends Migration
         Schema::create('recommends', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user_id')->unique();
-            $table->longText('gerne')->nullable();
+            $table->json('gerne')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

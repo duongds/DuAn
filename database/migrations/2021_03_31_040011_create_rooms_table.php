@@ -18,7 +18,7 @@ class CreateRoomsTable extends Migration
             $table->string('cinema_id');
             $table->string('name');
             $table->string('type')->nullable();
-            $table->longText('seats')->nullable();
+            $table->json('seats')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

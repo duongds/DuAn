@@ -23,7 +23,9 @@ class   CreateUsersTable extends Migration
             $table->tinyInteger('role')->nullable();
             //$table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->tinyInteger('lock_status')->nullable();
+            $table->boolean('is_member')->default(false);
+            $table->boolean('is_u22')->default(false);
+            $table->tinyInteger('lock_status')->nullable()->default(1);
             //$table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
