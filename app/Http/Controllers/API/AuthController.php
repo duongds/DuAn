@@ -3,34 +3,30 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends AppBaseController
 {
     /**
      * Create user
      *
-     * @param  [string] name
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [string] password_confirmation
-     * @return [string] message
+     * @param UserStoreRequest $request
+     * @return mixed [string] message
      */
-    public function signup(Request $request)
+    public function signup(UserStoreRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed'
-        ]);
-        //Sử dụng Hash thay cho bcrypt nhé.
+        $data=$request->validated();
         $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'name' => $data->name,
+            'email' => $data->email,
+            'password' => Hash::make($data->password)
         ]);
         $user->save();
         return $this->sendResponse($user, 'Successfully created user!');
@@ -39,29 +35,21 @@ class AuthController extends AppBaseController
     /**
      * Login user and create token
      *
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [boolean] remember_me
-     * @return [string] access_token
-     * @return [string] token_type
-     * @return [string] expires_at
+     * @param UserRequest $request
+     * @return JsonResponse [string] access_token
      */
-    public function login(Request $request)
+    public function login(UserRequest $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-            'remember_me' => 'boolean'
-        ]);
+        $data=$request->validated();
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
-        $user = $request->user();
+        $user = $data->user();
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
-        if ($request->remember_me)
+        if ($data->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(env('SESSION_LIFETIME'));
         $token->save();
         return $this->sendResponse([
@@ -76,7 +64,8 @@ class AuthController extends AppBaseController
     /**
      * Logout user (Revoke the token)
      *
-     * @return [string] message
+     * @param Request $request
+     * @return JsonResponse [string] message
      */
     public function logout(Request $request)
     {
@@ -89,7 +78,7 @@ class AuthController extends AppBaseController
     /**
      * Get the authenticated User
      *
-     * @return [json] user object
+     * @return mixed [json] user object
      */
     public function getUser()
     {

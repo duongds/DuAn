@@ -17,86 +17,67 @@ class PaymentController extends AppBaseController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         $data=$this->paymentRepo->getAll();
-        return response()->json($data,Response::HTTP_OK);
+        return $this->sendResponse($data,"Get list payment successfully");
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-//    public function create()
-//    {
-//        //
-//    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
-        if ($data = $this-> paymentRepo->create($request->all())){
-            return response()->json($data, Response::HTTP_OK);
+        $input = $request->all();
+        if ($data = $this-> paymentRepo->create($input)){
+            return $this->sendResponse($data,'Store payment successfully');
         }
-        return response('false', Response::HTTP_BAD_REQUEST);
+        return $this->sendError('Cant store payment');
     }
 
     /**
      * Display the specified resource.*
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
         $data=$this->paymentRepo->find($id);
-        return response()->json($data,Response::HTTP_OK);
+        return $this->sendResponse($data,'show payment');
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-//    public function edit($id)
-//    {
-//        //
-//    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
-        if ($data = $this->paymentRepo->update($request->all(),$id)) {
-            return response('success', Response::HTTP_OK);
+        $input = $request->all();
+        if ($data = $this->paymentRepo->update($input,$id)) {
+            return $this->sendResponse($data,'Update payment successfully');
         }
-        return response('false', Response::HTTP_BAD_REQUEST);
+        return $this->sendError('Cant update payment');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
         if ($this->paymentRepo->delete($id)) {
-            return response('success', Response::HTTP_OK);
+            return $this->sendSuccess('Delete payment successfully');
         }
-        return response('false', Response::HTTP_BAD_REQUEST);
+        return $this->sendError('cant delete payment');
     }
 }
