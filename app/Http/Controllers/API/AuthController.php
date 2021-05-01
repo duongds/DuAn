@@ -22,13 +22,13 @@ class AuthController extends AppBaseController
      */
     public function signup(UserStoreRequest $request)
     {
-        $data = $request->validated();
-        $user = new User([
-            'name' => $data->name,
-            'email' => $data->email,
-            'password' => Hash::make($data->password)
+        $data = $request->all();
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password'])
         ]);
-        $user->save();
+
         return $this->sendResponse($user, 'Successfully created user!');
     }
 
@@ -40,18 +40,13 @@ class AuthController extends AppBaseController
      */
     public function login(UserRequest $request)
     {
-        $data = $request->validated();
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
-        $user = $data->user();
+        $user = Auth::user();
         $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
-        if ($data->remember_me)
-            $token->expires_at = Carbon::now()->addWeeks(env('SESSION_LIFETIME'));
-        $token->save();
         return $this->sendResponse([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
