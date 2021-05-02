@@ -43,7 +43,7 @@ class AuthController extends AppBaseController
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials))
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'ER001'
             ], 401);
         $user = Auth::user();
         $tokenResult = $user->createToken('Personal Access Token');
