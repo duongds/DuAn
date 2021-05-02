@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
-use App\Http\Requests\UserRequest;
-use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -20,9 +18,17 @@ class AuthController extends AppBaseController
      * @param UserStoreRequest $request
      * @return mixed [string] message
      */
-    public function signup(UserStoreRequest $request)
+    public function signup(Request $request)
     {
         $data = $request->all();
+        $email_validate = User::where('email', $data['email'])->first();
+        $name_validate = User::where('name', $data['name'])->first();
+        if ($email_validate){
+            return $this->sendError('ER002', 400);
+        }
+        if ($name_validate){
+            return $this->sendError('ER003', 400);
+        }
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -38,7 +44,7 @@ class AuthController extends AppBaseController
      * @param UserRequest $request
      * @return JsonResponse [string] access_token
      */
-    public function login(UserRequest $request)
+    public function login(Request $request)
     {
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials))
