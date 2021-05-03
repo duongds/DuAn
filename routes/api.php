@@ -14,11 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:api', 'checkLockedUser'])->get('/user', function () {
+Route::middleware(['auth:api', 'checkLockedUser'])->group(function () {
     Route::resource('booking', \App\Http\Controllers\API\BookingController::class);
     Route::resource('product', \App\Http\Controllers\API\ProductController::class);
-    Route::get('/filterName',[\App\Http\Controllers\API\ProductController::class,'filterName']);
-
+    Route::resource('payment', \App\Http\Controllers\API\PaymentController::class);
+    Route::resource('recommend', \App\Http\Controllers\API\RecommendController::class);
+    Route::resource('room', \App\Http\Controllers\API\RoomController::class);
+    Route::resource('show', \App\Http\Controllers\API\ShowController::class);
+    Route::resource('user', \App\Http\Controllers\API\UserController::class);
+    Route::get('/product/filterName',[\App\Http\Controllers\API\ProductController::class,'filterName']);
 });
 
 Route::group(['prefix' => 'auth'], function () {
