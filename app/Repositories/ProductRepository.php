@@ -1,6 +1,8 @@
 <?php
 namespace App\Repositories;
 
+use App\Models\Product;
+
 class ProductRepository extends BaseRepository{
     /**
      * get model
@@ -9,5 +11,9 @@ class ProductRepository extends BaseRepository{
     public function getModel()
     {
         return \App\Models\Product::class;
+    }
+    public function findByName($name){
+        $data = Product::where('film_name',$name)->get();
+        return $data;
     }
 }

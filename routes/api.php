@@ -26,3 +26,5 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('/user', [\App\Http\Controllers\API\AuthController::class, 'getUser']);
     });
 });
+Route::get('/filterName',[\App\Http\Controllers\API\ProductController::class,'filterName']);
+Route::resource('product', \App\Http\Controllers\API\ProductController::class);
