@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'checkLockedUser'])->get('/user', function () {
     Route::resource('booking', \App\Http\Controllers\API\BookingController::class);
+    Route::resource('product', \App\Http\Controllers\API\ProductController::class);
+    Route::get('/filterName',[\App\Http\Controllers\API\ProductController::class,'filterName']);
+
 });
 
 Route::group(['prefix' => 'auth'], function () {
@@ -26,5 +29,3 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('/user', [\App\Http\Controllers\API\AuthController::class, 'getUser']);
     });
 });
-Route::get('/filterName',[\App\Http\Controllers\API\ProductController::class,'filterName']);
-Route::resource('product', \App\Http\Controllers\API\ProductController::class);

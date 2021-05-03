@@ -82,6 +82,10 @@ class ProductController extends AppBaseController
     public function filterName(Request $request){
         $name = $request->get('name');
         $data = $this->productRepo->findByName($name);
-        return $this->sendResponse($data,'get product successfully');
+        if($data) {
+            return $this->sendResponse($data, 'get product successfully');
+        }else{
+            return $this->sendError('cant find');
+        }
     }
 }

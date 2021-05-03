@@ -13,7 +13,11 @@ class ProductRepository extends BaseRepository{
         return \App\Models\Product::class;
     }
     public function findByName($name){
-        $data = Product::where('film_name',$name)->get();
-        return $data;
+        if ($name){
+            return Product::where('film_name','like','%'.$name.'%')->get();
+        }
+        else{
+            return null;
+        }
     }
 }
