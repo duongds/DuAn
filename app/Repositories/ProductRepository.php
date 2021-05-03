@@ -16,8 +16,5 @@ class ProductRepository extends BaseRepository{
         if ($name){
             return Product::where('film_name','like','%'.$name.'%')->get();
         }
-        else{
-            return null;
-        }
     }
 }
