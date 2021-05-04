@@ -22,7 +22,9 @@ Route::middleware(['auth:api', 'checkLockedUser'])->group(function () {
     Route::resource('room', \App\Http\Controllers\API\RoomController::class);
     Route::resource('show', \App\Http\Controllers\API\ShowController::class);
     Route::resource('user', \App\Http\Controllers\API\UserController::class);
-    Route::get('/product/filterName',[\App\Http\Controllers\API\ProductController::class,'filterName']);
+    Route::prefix('product')->group(function() {
+        Route::get('/filterName',[\App\Http\Controllers\API\ProductController::class,'filterName']);
+    });
 });
 
 Route::group(['prefix' => 'auth'], function () {
