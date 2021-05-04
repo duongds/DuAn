@@ -19,6 +19,9 @@ class CreateShowsTable extends Migration
             $table->dateTime('show_time')->nullable();
             $table->integer('room_status');
             $table->string('film_status')->nullable();
+            $table->string('created_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->string('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

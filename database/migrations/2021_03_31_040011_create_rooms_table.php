@@ -19,6 +19,9 @@ class CreateRoomsTable extends Migration
             $table->string('name');
             $table->string('type')->nullable();
             $table->json('seats')->nullable();
+            $table->string('created_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->string('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

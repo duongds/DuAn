@@ -2,12 +2,16 @@
 
 namespace App\Repositories;
 
+use Illuminate\Support\Facades\Schema;
+
 abstract class BaseRepository
 {
     /**
      * @var \Illuminate\Database\Eloquent\Model
      */
-    protected $_model;
+    protected $model;
+
+    protected $query;
 
     /**
      * EloquentRepository constructor.
@@ -30,7 +34,7 @@ abstract class BaseRepository
      */
     public function setModel()
     {
-        $this->_model = app()->make(
+        return $this->model = app()->make(
             $this->getModel()
         );
     }
@@ -42,63 +46,110 @@ abstract class BaseRepository
     public function getAll()
     {
 
-        return $this->_model->all();
+        return $this->model->all();
     }
 
     /**
      * Get one
      * @param $id
+     * @param array $columns
      * @return mixed
      */
-    public function find($id)
+    public function find($id, $columns = ['*'])
     {
-        $result = $this->_model->find($id);
+        $this->query = $this->model->newQuery();
 
-        return $result;
+        return $this->query->find($id, $columns);
+    }
+
+    /**
+     * get exits columns of model
+     * @param $name
+     * @return bool
+     */
+    private function exitsProperty($name)
+    {
+        return Schema::hasColumn($this->model->getTable(), $name);
     }
 
     /**
      * Create
-     * @param array $data
+     * @param $input
      * @return mixed
      */
-    public function create(array $data)
+    public function create($input)
     {
+        $user = \Auth::user();
 
-        return $this->_model->create($data);
+        $model = $this->model->newInstance($input);
+
+        // set created_by
+        if (\Auth::check() AND $this->exitsProperty('created_by')) {
+            $model->created_by = $user->id;
+        }
+        $model->save();
+
+        return $model;
     }
 
     /**
      * Update
-     * @param array $data
+     * @param $input
      * @param $id
      * @return bool|mixed
      */
-    public function update(array $data, $id)
+    public function update($input, $id)
     {
-        $result = $this->find($id);
-        if ($result) {
-            $result->update($data);
-            return $result;
+        $user = \Auth::user();
+        $this->query = $this->model->newQuery();
+
+        $model = $this->query->findOrFail($id);
+
+        // update, remove id
+        if (isset($input['id'])) unset($input['id']);
+
+        // not allow set created_by, modified_by
+        if (isset($input['created_by'])) unset($input['created_by']);
+        if (isset($input['updated_by'])) unset($input['modified_by']);
+
+        // set created_by
+        if (\Auth::check() AND $this->exitsProperty('created_by') AND !$model->created_by) {
+            $model->created_by = $user->id;
         }
 
-        return false;
+        // set modified_by
+        if (\Auth::check() AND $this->exitsProperty('modified_by')) {
+            $model->modified_by = $user->id;
+        }
+
+        $model->fill($input);
+
+        $model->save();
+
+        return $model;
     }
 
     /**
-     * Delete
+     * @param int $id
      *
-     * @param $id
-     * @return bool
+     * @return bool|mixed|null
+     * @throws \Exception
+     *
      */
     public function delete($id)
     {
-        $result = $this->find($id);
-        if ($result) {
-            $result->delete();
-            return true;
+        $user = \Auth::user();
+        $this->query = $this->model->newQuery();
+
+        $model = $this->query->findOrFail($id);
+
+        // set deleted_by
+        if (\Auth::check() AND $this->exitsProperty('deleted_by')) {
+            $model->deleted_by = $user->id;
         }
-        return false;
+        $model->save();
+
+        return $model->delete();
     }
 
 }

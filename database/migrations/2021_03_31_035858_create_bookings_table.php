@@ -18,6 +18,9 @@ class CreateBookingsTable extends Migration
             $table->integer('show_id')->nullable();
             $table->string('booking_seat')->nullable();
             $table->dateTime('booking_time')->nullable();
+            $table->string('created_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->string('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

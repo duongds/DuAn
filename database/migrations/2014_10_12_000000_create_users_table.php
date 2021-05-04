@@ -26,6 +26,9 @@ class   CreateUsersTable extends Migration
             $table->boolean('is_member')->default(false);
             $table->boolean('is_u22')->default(false);
             $table->tinyInteger('lock_status')->nullable()->default(1);
+            $table->string('created_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->string('modified_by')->nullable();
             //$table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

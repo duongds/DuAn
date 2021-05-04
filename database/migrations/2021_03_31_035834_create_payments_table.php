@@ -19,6 +19,9 @@ class CreatePaymentsTable extends Migration
             $table->string('amount')->nullable();
             $table->string('booking_id');
             $table->date('payment_date')->nullable();
+            $table->string('created_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->string('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

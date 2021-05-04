@@ -20,6 +20,9 @@ class CreateProductsTable extends Migration
             $table->string('poster')->nullable();
             $table->time('duration')->nullable();
             $table->string('film_description')->nullable();
+            $table->string('created_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->string('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
