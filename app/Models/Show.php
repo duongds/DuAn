@@ -8,10 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Show extends Model
 {
-    use HasFactory,SoftDeletes;
-    protected $fillable=[
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'shows';
+
+    protected $fillable = [
         'product_id',
-        'Create_at',
-        'room_id'
+        'show_time',
+        'room_status',
+        'film_status'
     ];
 }

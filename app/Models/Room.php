@@ -8,13 +8,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Room extends Model
 {
-    use HasFactory,SoftDeletes;
-    protected $fillable=[
+    use HasFactory, SoftDeletes;
+    protected $table = 'rooms';
+
+    protected $fillable = [
         'cinema_id',
         'name',
         'type'
     ];
-    public function cinema(){
+
+    public function cinema()
+    {
         return $this->belongsTo(Cinema::class);
     }
 }

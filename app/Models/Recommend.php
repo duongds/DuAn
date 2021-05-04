@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Recommend extends Model
 {
-    use HasFactory,SoftDeletes;
-    protected $fillable=[
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'recommends';
+
+    protected $fillable = [
         'user_id',
         'gerne',
     ];

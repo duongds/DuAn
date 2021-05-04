@@ -10,9 +10,12 @@ class Payment extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'payments';
+
     protected $fillable = [
-        'user-id',
+        'user_id',
         'amount',
-        'booking_id'
+        'booking_id',
+        'payment_date'
     ];
 }

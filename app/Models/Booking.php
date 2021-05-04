@@ -22,6 +22,11 @@ class Booking extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'bookings';
+
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
+
     protected $fillable = [
         'id',
         'show_id',

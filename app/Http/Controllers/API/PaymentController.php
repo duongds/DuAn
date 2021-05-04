@@ -3,26 +3,32 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
-
 use App\Repositories\PaymentRepository;
+use App\Utils\CommonUtils;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class PaymentController extends AppBaseController
 {
     protected $paymentRepo;
-    public function __construct(PaymentRepository  $paymentRepository){
-        $this->paymentRepo=$paymentRepository;
+
+    public function __construct(PaymentRepository $paymentRepository)
+    {
+        $this->paymentRepo = $paymentRepository;
     }
+
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data=$this->paymentRepo->getAll();
-        return $this->sendResponse($data,"Get list payment successfully");
+        $search = $request->except(['skip', 'limit']);
+        $limit = $request->get('limit', CommonUtils::DEFAULT_LIMIT);
+        $data = $this->paymentRepo->paginate($search, $limit, null, null);
+        return $this->sendResponse($data, "Get list payment successfully");
     }
 
     /**
@@ -34,21 +40,21 @@ class PaymentController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        if ($data = $this-> paymentRepo->create($input)){
-            return $this->sendResponse($data,'Store payment successfully');
+        if ($data = $this->paymentRepo->create($input)) {
+            return $this->sendResponse($data, 'Store payment successfully');
         }
         return $this->sendError('Cant store payment');
     }
 
     /**
      * Display the specified resource.*
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show($id)
     {
-        $data=$this->paymentRepo->find($id);
-        return $this->sendResponse($data,'show payment');
+        $data = $this->paymentRepo->find($id);
+        return $this->sendResponse($data, 'show payment');
     }
 
     /**
@@ -61,8 +67,8 @@ class PaymentController extends AppBaseController
     public function update(Request $request, $id)
     {
         $input = $request->all();
-        if ($data = $this->paymentRepo->update($input,$id)) {
-            return $this->sendResponse($data,'Update payment successfully');
+        if ($data = $this->paymentRepo->update($input, $id)) {
+            return $this->sendResponse($data, 'Update payment successfully');
         }
         return $this->sendError('Cant update payment');
     }
@@ -70,7 +76,7 @@ class PaymentController extends AppBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function destroy($id)
