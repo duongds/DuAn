@@ -79,4 +79,9 @@ class ProductController extends AppBaseController
         }
         return $this->sendError('cant delete');
     }
+    public function filterName(Request $request){
+        $name = $request->get('name');
+        $data = $this->productRepo->findByName($name);
+        return $this->sendResponse($data, 'get product successfully');
+    }
 }
