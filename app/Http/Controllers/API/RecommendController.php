@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\AppBaseController;
 
 use App\Repositories\RecommendRepository;
+use App\Utils\CommonUtils;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -19,10 +20,12 @@ class RecommendController extends AppBaseController
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data=$this->recommendRepo->getAll();
-        return $this->sendResponse($data,'Get Recommend successfully');
+        $search = $request->except(['skip', 'limit']);
+        $limit = $request->get('limit', CommonUtils::DEFAULT_LIMIT);
+        $data = $this->recommendRepo->paginate($search, $limit, null, null);
+        return $this->sendResponse($data, 'Get list booking successfully');
     }
 
     /**

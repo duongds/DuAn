@@ -25,4 +25,9 @@ class ShowRepository extends BaseRepository
     {
         return \App\Models\Show::class;
     }
+    public function beforeAllQuery(){
+        $this->query->with(['product' =>function ($query){
+            $query->select('id','film_name');
+        }]);
+    }
 }

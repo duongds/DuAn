@@ -19,4 +19,7 @@ class Product extends Model
         'film_description',
         'duration'
     ];
+    public function shows(){
+        return $this->hasMany(Show::class);
+    }
 }

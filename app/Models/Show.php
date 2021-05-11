@@ -18,4 +18,7 @@ class Show extends Model
         'room_status',
         'film_status'
     ];
+    public function product(){
+        return $this->belongsTo(Product::class, 'product_id','id');
+    }
 }

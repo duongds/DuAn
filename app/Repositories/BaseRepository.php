@@ -202,7 +202,7 @@ abstract class BaseRepository
      * @param array $orders
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate($search = [], $perPage, $columns = ['*'], $orders = [])
+    public function paginate($search = [],$perPage=1, $columns = ['*'], $orders = [])
     {
         if ($columns == null) {
             if (!empty($this->fieldInList)) {

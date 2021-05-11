@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\ProductRepository;
+use App\Utils\CommonUtils;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -18,10 +19,12 @@ class ProductController extends AppBaseController
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data=$this->productRepo->getAll();
-        return $this->sendResponse($data,'Get list Product successfully');
+        $search = $request->except(['skip', 'limit']);
+        $limit = $request->get('limit', CommonUtils::DEFAULT_LIMIT);
+        $data = $this->productRepo->paginate($search, $limit, null, null);
+        return $this->sendResponse($data, 'Get list booking successfully');
     }
 
     /**
@@ -47,7 +50,7 @@ class ProductController extends AppBaseController
     public function show($id)
     {
         $data=$this->productRepo->find($id);
-        return $this->sendResponse('Show product successfully');
+        return $this->sendResponse($data,'Show product successfully');
     }
 
     /**

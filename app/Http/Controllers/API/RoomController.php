@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\RoomRepository;
+use App\Utils\CommonUtils;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -18,10 +19,12 @@ class RoomController extends AppBaseController
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data=$this->roomRepo->getAll();
-        return $this->sendResponse($data,'Get room successfully');
+        $search = $request->except(['skip', 'limit']);
+        $limit = $request->get('limit', CommonUtils::DEFAULT_LIMIT);
+        $data = $this->roomRepo->paginate($search, $limit, null, null);
+        return $this->sendResponse($data, 'Get list booking successfully');
     }
 
     /**
