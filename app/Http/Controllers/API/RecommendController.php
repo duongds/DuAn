@@ -15,9 +15,11 @@ class RecommendController extends AppBaseController
     public function __construct(RecommendRepository  $recommendRepository){
         $this->recommendRepo=$recommendRepository;
     }
+
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
      */
     public function index(Request $request)
@@ -70,12 +72,6 @@ class RecommendController extends AppBaseController
         return $this->sendError('cant update recommend');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function destroy($id)
     {
         if ($this->recommendRepo->delete($id)) {

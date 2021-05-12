@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
-
 use App\Repositories\ShowRepository;
 use App\Utils\CommonUtils;
 use Illuminate\Http\Request;
@@ -11,20 +10,24 @@ use Illuminate\Http\Response;
 
 class ShowController extends AppBaseController
 {
-    protected $showRepo;
-    public function __construct(ShowRepository  $showRepository){
-        $this->showRepo=$showRepository;
+    protected $showRepository;
+
+    public function __construct(ShowRepository $showRepo)
+    {
+        $this->showRepository = $showRepo;
     }
+
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
      */
     public function index(Request $request)
     {
         $search = $request->except(['skip', 'limit']);
         $limit = $request->get('limit', CommonUtils::DEFAULT_LIMIT);
-        $data = $this->showRepo->paginate($search, $limit, null, null);
+        $data = $this->showRepository->paginate($search, $limit, null, null);
         return $this->sendResponse($data, 'Get list booking successfully');
     }
 
@@ -37,21 +40,21 @@ class ShowController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        if ($data = $this-> showRepo->create($input)){
-            return $this->sendResponse($data,'Store show successfully');
+        if ($data = $this->showRepository->create($input)) {
+            return $this->sendResponse($data, 'Store show successfully');
         }
         return $this->sendError('Cant store show');
     }
 
     /**
      * Display the specified resource.*
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show($id)
     {
-        $data=$this->showRepo->find($id);
-        return $this->sendResponse($data,'show successfully');
+        $data = $this->showRepository->find($id);
+        return $this->sendResponse($data, 'show successfully');
     }
 
     /**
@@ -64,23 +67,26 @@ class ShowController extends AppBaseController
     public function update(Request $request, $id)
     {
         $input = $request->all();
-        if ($data = $this->showRepo->update($input,$id)) {
-            return $this->sendResponse($data,'update successfully');
+        if ($data = $this->showRepository->update($input, $id)) {
+            return $this->sendResponse($data, 'update successfully');
         }
         return $this->sendError('cant update show');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function destroy($id)
     {
-        if ($this->showRepo->delete($id)) {
+        if ($this->showRepository->delete($id)) {
             return $this->sendSuccess('delete successfully');
         }
         return $this->sendError('cant delete');
+    }
+
+    public function getSelectList(Request $request)
+    {
+        $input = $request->except(['skip', 'limit']);
+
+        $data = $this->showRepository->allQuery($input, null, null, null)->get();
+
+        return $this->sendResponse($data, 'show select-list');
     }
 }

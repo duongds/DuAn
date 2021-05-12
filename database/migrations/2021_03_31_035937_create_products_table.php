@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('category')->nullable();
             $table->string('poster')->nullable();
             $table->time('duration')->nullable();
+            $table->integer('like_number')->nullable();
             $table->string('film_description')->nullable();
             $table->string('created_by')->nullable();
             $table->string('deleted_by')->nullable();

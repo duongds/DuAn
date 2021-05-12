@@ -15,6 +15,8 @@ class Show extends Model
     protected $fillable = [
         'product_id',
         'show_time',
+        'show_date',
+        'room_id',
         'room_status',
         'film_status'
     ];

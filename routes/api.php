@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +21,9 @@ Route::middleware(['auth:api', 'checkLockedUser'])->group(function () {
     Route::resource('room', \App\Http\Controllers\API\RoomController::class);
     Route::resource('show', \App\Http\Controllers\API\ShowController::class);
     Route::resource('user', \App\Http\Controllers\API\UserController::class);
-    Route::prefix('product')->group(function() {
-        Route::get('/filterName',[\App\Http\Controllers\API\ProductController::class,'filterName']);
+    Route::prefix('select-list')->group(function () {
+        Route::get('/product', [\App\Http\Controllers\API\ProductController::class, 'getSelectList']);
+        Route::get('/show', [\App\Http\Controllers\API\ShowController::class, 'getSelectList']);
     });
 });
 

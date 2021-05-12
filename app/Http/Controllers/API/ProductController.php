@@ -11,9 +11,12 @@ use Illuminate\Http\Response;
 class ProductController extends AppBaseController
 {
     protected $productRepo;
-    public function __construct(ProductRepository  $productRepository){
-        $this->productRepo=$productRepository;
+
+    public function __construct(ProductRepository $productRepository)
+    {
+        $this->productRepo = $productRepository;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,21 +39,21 @@ class ProductController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        if ($data = $this-> productRepo->create($input)){
-            return $this->sendResponse($data,'Store product successfully');
+        if ($data = $this->productRepo->create($input)) {
+            return $this->sendResponse($data, 'Store product successfully');
         }
         return $this->sendError('cant update product');
     }
 
     /**
      * Display the specified resource.*
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show($id)
     {
-        $data=$this->productRepo->find($id);
-        return $this->sendResponse($data,'Show product successfully');
+        $data = $this->productRepo->find($id);
+        return $this->sendResponse($data, 'Show product successfully');
     }
 
     /**
@@ -63,8 +66,8 @@ class ProductController extends AppBaseController
     public function update(Request $request, $id)
     {
         $input = $request->all();
-        if ($data = $this->productRepo->update($input,$id)) {
-            return $this->sendResponse($data,'Update product successfully');
+        if ($data = $this->productRepo->update($input, $id)) {
+            return $this->sendResponse($data, 'Update product successfully');
         }
         return $this->sendError('cant update product');
     }
@@ -72,7 +75,7 @@ class ProductController extends AppBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function destroy($id)
@@ -82,7 +85,9 @@ class ProductController extends AppBaseController
         }
         return $this->sendError('cant delete');
     }
-    public function filterName(Request $request){
+
+    public function getSelectList(Request $request)
+    {
         $name = $request->get('name');
         $data = $this->productRepo->findByName($name);
         return $this->sendResponse($data, 'get product successfully');
