@@ -24,6 +24,7 @@ class CreateShowsTable extends Migration
             $table->string('created_by')->nullable();
             $table->string('deleted_by')->nullable();
             $table->string('modified_by')->nullable();
+            $table->unique(['product_id', 'show_date', 'show_time', 'room_id'], 'unique_show');
             $table->timestamps();
             $table->softDeletes();
         });
