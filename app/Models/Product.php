@@ -16,9 +16,12 @@ class Product extends Model
         'film_name',
         'category',
         'poster',
+        'duration',
+        'like',
         'film_description',
-        'duration'
+        'film_status'
     ];
+
     public function shows(){
         return $this->hasMany(Show::class);
     }

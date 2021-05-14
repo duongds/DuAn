@@ -20,7 +20,6 @@ class CreateShowsTable extends Migration
             $table->time('show_time')->nullable()->index();
             $table->integer('room_id')->nullable()->index();
             $table->json('room_status')->nullable();
-            $table->tinyInteger('film_status')->nullable();
             $table->string('created_by')->nullable();
             $table->string('deleted_by')->nullable();
             $table->string('modified_by')->nullable();
