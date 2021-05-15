@@ -16,7 +16,6 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('film_name')->nullable();
-            $table->json('category')->nullable();
             $table->string('poster')->nullable();
             $table->time('duration')->nullable();
             $table->integer('like')->nullable();
@@ -28,6 +27,13 @@ class CreateProductsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::create('product_category_xref', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('product_id');
+            $table->unsignedInteger('category_id');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -38,5 +44,6 @@ class CreateProductsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('products');
+        Schema::dropIfExists('product_category_xref');
     }
 }
