@@ -25,4 +25,8 @@ class Product extends Model
     public function shows(){
         return $this->hasMany(Show::class);
     }
+
+    public function category(){
+        return $this->belongsToMany(Category::class, 'product_category_xref');
+    }
 }

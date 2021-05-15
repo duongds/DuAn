@@ -34,4 +34,10 @@ class ProductRepository extends BaseRepository
             return Product::where('film_name', 'like', '%' . $name . '%')->get();
         }
     }
+
+    public function beforeAllQuery(){
+        $this->query->with(['category' => function($query) {
+            $query->select('category.id', 'category.name');
+        }]);
+    }
 }
