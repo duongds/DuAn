@@ -15,8 +15,5 @@ class RoomSeeder extends Seeder
      */
     public function run()
     {
-        $room = [
-        ];
-        DB::table('rooms')->insert($room);
     }
 }
