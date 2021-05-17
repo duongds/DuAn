@@ -12,9 +12,8 @@ class Room extends Model
     protected $table = 'rooms';
 
     protected $fillable = [
-        'cinema_id',
         'name',
-        'type'
+        'seats'
     ];
 
     public function cinema()
