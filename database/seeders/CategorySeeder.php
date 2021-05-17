@@ -20,6 +20,8 @@ class CategorySeeder extends Seeder
             ['name' => CommonUtils::isRomance],
             ['name' => CommonUtils::isMystery],
             ['name' => CommonUtils::isThriller],
+            ['name' => CommonUtils::isAction],
+            ['name' => CommonUtils::isAnimation],
         ];
 
         DB::table('category')->insert($category);

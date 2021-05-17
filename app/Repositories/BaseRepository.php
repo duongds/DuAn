@@ -279,5 +279,12 @@ abstract class BaseRepository
     {
         return addcslashes($input_search, '0!@#$%^&*\()_-+');
     }
+
+    public function uploadImage($path, $file)
+    {
+        $name = 'files/' . $path . '/' . now()->format('H-i-s-m-s-d-m-Y-');
+        $file->move(public_path() . '/files/' . $path . '/', $name);
+        return $name;
+    }
 }
 
