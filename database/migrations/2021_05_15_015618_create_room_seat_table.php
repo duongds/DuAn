@@ -20,6 +20,7 @@ class CreateRoomSeatTable extends Migration
             $table->string('seat_row');
             $table->string('condition');
             $table->string('type');
+            $table->unique(['room_id', 'seat_column', 'seat_row'], 'unique_room_seat');
             $table->timestamps();
         });
     }
