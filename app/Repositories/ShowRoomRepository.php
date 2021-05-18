@@ -1,26 +1,28 @@
 <?php
 
-
 namespace App\Repositories;
 
+use App\Models\ShowRoom;
+use App\Repositories\BaseRepository;
+
+/**
+ * Class ShowRoomRepository
+ * @package App\Repositories
+ * @version May 18, 2021, 6:50 am UTC
+*/
 
 class ShowRoomRepository extends BaseRepository
 {
-
+    /**
+     * @var array
+     */
     protected $fieldSearchable = [
-    ];
-
-    protected $fieldInList = [
         'room_show_id',
         'seat_column',
         'seat_row',
         'condition',
         'type',
         'show_time'
-    ];
-
-    protected $fieldOrder = [
-        'id'
     ];
 
     /**
@@ -34,11 +36,10 @@ class ShowRoomRepository extends BaseRepository
     }
 
     /**
-     * get model
-     * @return string
-     */
-    public function getModel()
+     * Configure the Model
+     **/
+    public function model()
     {
-        return \App\Models\ShowRoom::class;
+        return ShowRoom::class;
     }
 }

@@ -98,3 +98,18 @@ $this->query->where(\DB::raw('BINARY name'), 'like' ,"%$content%");
 public function processSearch($input_search = ""){
         return addcslashes($input_search, '!@#$%^&*()_-+');
     }
+    
+#### Use infyom make api step
++ make file migration. put info and run command migrate
++ run infyom to make: controller, model, request, repository. modify them
+ - controller: list
+ - repository: fieldSearchable - compare =, fieldInList - field in api list, fieldFilter - compare like, fieldOrder - allow field order
+ - model: fillable - allow field to store
+ - request: rule type, unique ...
+
+```
+php artisan make:migration create_categories_table --create=lv_categories
+php artisan infyom:api Categories --fromTable --tableName=lv_categories --skip=migration
+php artisan make:seeder CategoriesSeeder
+php artisan make:factory CategoriesFactory --model=Categories
+```

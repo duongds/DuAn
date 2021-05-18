@@ -21,8 +21,8 @@ Route::middleware(['auth:api', 'checkLockedUser'])->group(function () {
     Route::resource('room', \App\Http\Controllers\API\RoomController::class);
     Route::resource('show', \App\Http\Controllers\API\ShowController::class);
     Route::resource('user', \App\Http\Controllers\API\UserController::class);
-    Route::resource('category', \App\Http\Controllers\API\CategoryController::class);
-    Route::resource('show-room', \App\Http\Controllers\API\ShowRoomController::class);
+    Route::resource('show_rooms', \App\Http\Controllers\API\ShowRoomAPIController::class);
+    Route::resource('categories', \App\Http\Controllers\API\CategoryAPIController::class);
     Route::prefix('select-list')->group(function () {
         Route::get('/product', [\App\Http\Controllers\API\ProductController::class, 'getSelectList']);
         Route::get('/show', [\App\Http\Controllers\API\ShowController::class, 'getSelectList']);

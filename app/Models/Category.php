@@ -2,20 +2,51 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as Model;
 
+
+
+/**
+ * Class Category
+ * @package App\Models
+ * @version May 18, 2021, 6:50 am UTC
+ *
+ * @property string $name
+ */
 class Category extends Model
 {
-    use HasFactory;
 
-    protected $table = 'category';
 
-    protected $fillable = [
+    public $table = 'category';
+    
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
+
+
+
+
+    public $fillable = [
         'name'
     ];
 
-    public function products(){
-        return $this->belongsToMany(Product::class, 'product_category_xref');
-    }
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string'
+    ];
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public static $rules = [
+        'name' => 'required|string|max:255'
+    ];
+
+    
 }
