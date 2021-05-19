@@ -15,10 +15,10 @@ class CreateShowsTable extends Migration
     {
         Schema::create('shows', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('product_id')->nullable()->index();
+            $table->unsignedInteger('product_id')->nullable()->index();
             $table->date('show_date')->nullable()->index();
             $table->time('show_time')->nullable()->index();
-            $table->integer('show_room_id')->nullable()->index();
+            $table->unsignedInteger('show_room_id')->nullable()->index();
 //            $table->json('room_status')->nullable();
             $table->string('created_by')->nullable();
             $table->string('deleted_by')->nullable();

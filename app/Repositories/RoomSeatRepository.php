@@ -2,22 +2,26 @@
 
 namespace App\Repositories;
 
-use App\Models\Category;
+use App\Models\RoomSeat;
 use App\Repositories\BaseRepository;
 
 /**
- * Class CategoryRepository
+ * Class RoomSeatRepository
  * @package App\Repositories
- * @version May 18, 2021, 6:50 am UTC
+ * @version May 19, 2021, 8:36 am UTC
 */
 
-class CategoryRepository extends BaseRepository
+class RoomSeatRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'name'
+        'room_id',
+        'seat_column',
+        'seat_row',
+        'condition',
+        'type'
     ];
 
     /**
@@ -35,6 +39,6 @@ class CategoryRepository extends BaseRepository
      **/
     public function getModel()
     {
-        return Category::class;
+        return RoomSeat::class;
     }
 }

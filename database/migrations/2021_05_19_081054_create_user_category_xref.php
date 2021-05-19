@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomsTable extends Migration
+class CreateUserCategoryXref extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateRoomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('user_category_xref', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('created_by')->nullable();
-            $table->string('deleted_by')->nullable();
-            $table->string('modified_by')->nullable();
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('category_id');
+            $table->integer('count');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -31,6 +29,6 @@ class CreateRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('user_category_xref');
     }
 }

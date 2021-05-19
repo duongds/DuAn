@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Models\Category;
+use App\Repositories\CategoryRepository;
+use App\Repositories\ProductCategoryXrefRepository;
 use App\Repositories\ProductRepository;
 use App\Utils\CommonUtils;
 use Illuminate\Http\Request;
@@ -11,15 +14,20 @@ use Illuminate\Http\Response;
 class ProductController extends AppBaseController
 {
     protected $productRepo;
+    protected $productCategoryXrefRepository;
+    protected $categoryRepository;
 
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(ProductRepository $productRepository, ProductCategoryXrefRepository $productCategoryXrefRepo, CategoryRepository $categoryRepo)
     {
         $this->productRepo = $productRepository;
+        $this->productCategoryXrefRepository = $productCategoryXrefRepo;
+        $this->categoryRepository = $categoryRepo;
     }
 
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
      */
     public function index(Request $request)
@@ -39,10 +47,27 @@ class ProductController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        if ($data = $this->productRepo->create($input)) {
+
+        $input['category'] = explode(",", $input['category']);
+
+        $category_arr = Category::whereIn('name', $input['category'])->pluck('id')->toArray();
+        unset($input['category']);
+
+        \DB::beginTransaction();
+        try {
+            $data = $this->productRepo->create($input);
+
+            $this->productRepo->setModel()->find($data->id)->category()->sync($category_arr);
+
+            \DB::commit();
+
             return $this->sendResponse($data, 'Store product successfully');
+
+        } catch (\Exception $e) {
+            \DB::rollBack();
+
+            return $this->sendError('Cant update products');
         }
-        return $this->sendError('cant update product');
     }
 
     /**
@@ -65,19 +90,40 @@ class ProductController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
+
         $input = $request->all();
-        if ($data = $this->productRepo->update($input, $id)) {
-            return $this->sendResponse($data, 'Update product successfully');
+
+        $product = $this->productRepo->find($id);
+
+        if (empty($product)) {
+            return $this->sendError('Product not found');
         }
-        return $this->sendError('cant update product');
+
+        $input['category'] = explode(",", $input['category']);
+
+        $category_arr = Category::whereIn('name', $input['category'])->pluck('id')->toArray();
+        unset($input['category']);
+
+        \DB::beginTransaction();
+        try {
+            $data = $this->productRepo->update($input, $id);
+
+            $this->productRepo->setModel()->find($id)->category()->detach();
+            $this->productRepo->setModel()->find($id)->category()->sync($category_arr);
+
+            \DB::commit();
+
+            return $this->sendResponse($data, 'Update product success');
+
+        } catch (\Exception $e) {
+            \DB::rollBack();
+
+            return $this->sendError('Cant update products');
+        }
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
-     */
+
     public function destroy($id)
     {
         if ($this->productRepo->delete($id)) {

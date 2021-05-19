@@ -2,10 +2,29 @@
 
 namespace App\Repositories;
 
+use App\Models\Payment;
+use App\Repositories\BaseRepository;
+
+/**
+ * Class PaymentRepository
+ * @package App\Repositories
+ * @version May 19, 2021, 8:37 am UTC
+*/
+
 class PaymentRepository extends BaseRepository
 {
-
-    protected $fieldSearchable = [];
+    /**
+     * @var array
+     */
+    protected $fieldSearchable = [
+        'user_id',
+        'amount',
+        'show_id',
+        'payment_date',
+        'created_by',
+        'deleted_by',
+        'modified_by'
+    ];
 
     /**
      * Return searchable fields
@@ -18,11 +37,10 @@ class PaymentRepository extends BaseRepository
     }
 
     /**
-     * get model
-     * @return string
-     */
+     * Configure the Model
+     **/
     public function getModel()
     {
-        return \App\Models\Payment::class;
+        return Payment::class;
     }
 }

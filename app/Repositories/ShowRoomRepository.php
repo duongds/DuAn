@@ -38,7 +38,7 @@ class ShowRoomRepository extends BaseRepository
     /**
      * Configure the Model
      **/
-    public function model()
+    public function getModel()
     {
         return ShowRoom::class;
     }

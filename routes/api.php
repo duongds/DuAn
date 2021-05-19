@@ -14,13 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:api', 'checkLockedUser'])->group(function () {
-    Route::resource('booking', \App\Http\Controllers\API\BookingController::class);
-    Route::resource('product', \App\Http\Controllers\API\ProductController::class);
-    Route::resource('payment', \App\Http\Controllers\API\PaymentController::class);
-    Route::resource('recommend', \App\Http\Controllers\API\RecommendController::class);
-    Route::resource('room', \App\Http\Controllers\API\RoomController::class);
-    Route::resource('show', \App\Http\Controllers\API\ShowController::class);
-    Route::resource('user', \App\Http\Controllers\API\UserController::class);
+    Route::resource('products', \App\Http\Controllers\API\ProductController::class);
+    Route::resource('payments', \App\Http\Controllers\API\PaymentAPIController::class);
+    Route::resource('rooms', \App\Http\Controllers\API\RoomController::class);
+    Route::resource('shows', \App\Http\Controllers\API\ShowController::class);
+    Route::resource('users', \App\Http\Controllers\API\UserController::class);
     Route::resource('show_rooms', \App\Http\Controllers\API\ShowRoomAPIController::class);
     Route::resource('categories', \App\Http\Controllers\API\CategoryAPIController::class);
     Route::prefix('select-list')->group(function () {
@@ -37,3 +35,8 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('/user', [\App\Http\Controllers\API\AuthController::class, 'getUser']);
     });
 });
+
+
+Route::resource('room_seats', App\Http\Controllers\API\RoomSeatAPIController::class);
+
+Route::resource('payments', App\Http\Controllers\API\PaymentAPIController::class);
