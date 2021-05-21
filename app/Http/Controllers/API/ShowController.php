@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Models\ShowRoom;
 use App\Repositories\ShowRepository;
+use App\Repositories\ShowRoomRepository;
 use App\Utils\CommonUtils;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -40,10 +42,20 @@ class ShowController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        if ($data = $this->showRepository->create($input)) {
+        \DB::beginTransaction();
+        try {
+
+            $data = $this->showRepository->create($input);
+
+            ShowRoom::updateOrCreate([]);
+            \DB::commit();
             return $this->sendResponse($data, 'Store show successfully');
+
+        } catch (\Exception $e) {
+            \DB::rollBack();
+
+            return $this->sendError('Cant update products');
         }
-        return $this->sendError('Cant store show');
     }
 
     /**

@@ -42,4 +42,16 @@ class ShowRoomRepository extends BaseRepository
     {
         return ShowRoom::class;
     }
+
+    public function update($input, $id){
+        dd($input);
+    }
+
+    public function create($input){
+        dd($input);
+    }
+
+    public function delete($input){
+        dd($input);
+    }
 }

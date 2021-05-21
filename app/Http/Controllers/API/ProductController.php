@@ -48,6 +48,8 @@ class ProductController extends AppBaseController
     {
         $input = $request->all();
 
+        $input['poster'] = $this->productRepo->uploadImage('product', $input['poster']);
+
         $input['category'] = explode(",", $input['category']);
 
         $category_arr = Category::whereIn('name', $input['category'])->pluck('id')->toArray();
@@ -98,6 +100,7 @@ class ProductController extends AppBaseController
         if (empty($product)) {
             return $this->sendError('Product not found');
         }
+        $input['poster'] = $this->productRepo->uploadImage('product', $input['poster']);
 
         $input['category'] = explode(",", $input['category']);
 
