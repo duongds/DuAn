@@ -6,6 +6,7 @@ class RoomRepository extends BaseRepository
 {
 
     protected $fieldSearchable = [];
+    protected $fieldOrder = ['id'];
 
     /**
      * Return searchable fields
@@ -24,5 +25,11 @@ class RoomRepository extends BaseRepository
     public function getModel()
     {
         return \App\Models\Room::class;
+    }
+
+    public function beforeAllQuery(){
+        $this->query->with(['room_seat' => function($qe){
+            $qe->select('seat_column', 'seat_row', 'condition', 'type', 'room_id');
+        }]);
     }
 }

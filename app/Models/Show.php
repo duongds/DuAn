@@ -16,9 +16,6 @@ class Show extends Model
         'product_id',
         'show_time',
         'show_date',
-        'room_id',
-        'room_status',
-        'film_status'
     ];
     public function product(){
         return $this->belongsTo(Product::class, 'product_id','id');

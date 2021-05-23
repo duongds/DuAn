@@ -15,9 +15,6 @@ class ShowRepository extends BaseRepository
         'product_id',
         'show_time',
         'show_date',
-        'room_id',
-        'room_status',
-        'film_status'
     ];
 
     protected $fieldOrder = [

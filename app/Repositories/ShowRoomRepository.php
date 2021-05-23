@@ -17,7 +17,8 @@ class ShowRoomRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'room_show_id',
+        'show_id',
+        'room_id',
         'seat_column',
         'seat_row',
         'condition',
@@ -41,17 +42,5 @@ class ShowRoomRepository extends BaseRepository
     public function getModel()
     {
         return ShowRoom::class;
-    }
-
-    public function update($input, $id){
-        dd($input);
-    }
-
-    public function create($input){
-        dd($input);
-    }
-
-    public function delete($input){
-        dd($input);
     }
 }

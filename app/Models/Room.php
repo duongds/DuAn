@@ -20,4 +20,9 @@ class Room extends Model
     {
         return $this->belongsTo(Cinema::class);
     }
+
+    public function room_seat()
+    {
+        return $this->hasMany(RoomSeat::class, 'room_id', 'id');
+    }
 }

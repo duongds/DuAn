@@ -29,7 +29,7 @@ class CreateShowsTable extends Migration
 
         Schema::create('show_room', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('room_show_id')->index();
+            $table->unsignedInteger('room_id')->index();
             $table->unsignedInteger('show_id')->index();
             $table->string('seat_column');
             $table->string('seat_row');
@@ -37,7 +37,7 @@ class CreateShowsTable extends Migration
 //            $table->json('room_status')->nullable();
             $table->string('type');
             $table->dateTime('show_time');
-            $table->unique(['room_show_id', 'seat_column', 'seat_row'], 'unique_room_seat_show');
+            $table->unique(['room_id', 'seat_column', 'seat_row', 'show_time'], 'unique_room_seat_show');
             $table->timestamps();
             $table->softDeletes();
         });

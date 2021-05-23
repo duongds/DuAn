@@ -31,7 +31,8 @@ class ShowRoom extends Model
 
 
     public $fillable = [
-        'room_show_id',
+        'show_id',
+        'room_id',
         'seat_column',
         'seat_row',
         'condition',
@@ -46,7 +47,8 @@ class ShowRoom extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'room_show_id' => 'integer',
+        'show_id' => 'integer',
+        'room_id' => 'integer',
         'seat_column' => 'string',
         'seat_row' => 'string',
         'condition' => 'string',
@@ -60,12 +62,6 @@ class ShowRoom extends Model
      * @var array
      */
     public static $rules = [
-        'room_show_id' => 'required|integer',
-        'seat_column' => 'required|string|max:255',
-        'seat_row' => 'required|string|max:255',
-        'condition' => 'required|string|max:255',
-        'type' => 'required|string|max:255',
-        'show_time' => 'required'
     ];
 
     

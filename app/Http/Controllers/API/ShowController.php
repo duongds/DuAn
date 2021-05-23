@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
 use App\Models\ShowRoom;
+use App\Repositories\RoomRepository;
 use App\Repositories\ShowRepository;
-use App\Repositories\ShowRoomRepository;
 use App\Utils\CommonUtils;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,10 +13,12 @@ use Illuminate\Http\Response;
 class ShowController extends AppBaseController
 {
     protected $showRepository;
+    protected $roomRepository;
 
-    public function __construct(ShowRepository $showRepo)
+    public function __construct(ShowRepository $showRepo, RoomRepository $roomRepo)
     {
         $this->showRepository = $showRepo;
+        $this->roomRepository = $roomRepo;
     }
 
     /**
@@ -42,19 +44,24 @@ class ShowController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
+        
         \DB::beginTransaction();
         try {
 
             $data = $this->showRepository->create($input);
-
-            ShowRoom::updateOrCreate([]);
+            $room_data = $this->roomRepository->all(['room_id' => $input['room_id']], null, null, null, null)->toArray();
+            foreach ($room_data[0]['room_seat'] as $room) {
+                $room['show_id'] = $data->id;
+                $room['show_time'] = $date_time = date('Y-m-d H:i:s', strtotime($input['show_date'] . $input['show_time']));
+                ShowRoom::insert([$room]);
+            }
             \DB::commit();
             return $this->sendResponse($data, 'Store show successfully');
 
         } catch (\Exception $e) {
             \DB::rollBack();
 
-            return $this->sendError('Cant update products');
+            return $this->sendError($e);
         }
     }
 
