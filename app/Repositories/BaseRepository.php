@@ -282,8 +282,9 @@ abstract class BaseRepository
 
     public function uploadImage($path, $file)
     {
-        $name = 'files/' . $path . '/' . now()->format('H-i-s-m-s-d-m-Y-');
-        $file->move(public_path() . '/files/' . $path . '/', $name);
+        $filename = $file->getClientOriginalName();
+        $name = '/storage/image/' . $path .'/' . $filename;
+        $file->move(public_path() . '/storage/image/' . $path . '/', $filename);
         return $name;
     }
 }

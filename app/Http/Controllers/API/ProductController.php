@@ -47,12 +47,10 @@ class ProductController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-
+        
         $file = $request->file('poster');
 
-        $originalFile = $file->getClientOriginalName();
-
-        $input['poster'] = $this->productRepo->uploadImage('product', $originalFile);
+        $input['poster'] = $this->productRepo->uploadImage('product', $file);
 
         $input['category'] = explode(",", $input['category']);
 
