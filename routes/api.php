@@ -21,6 +21,8 @@ Route::middleware(['auth:api', 'checkLockedUser'])->group(function () {
     Route::resource('users', \App\Http\Controllers\API\UserController::class);
     Route::resource('show_rooms', \App\Http\Controllers\API\ShowRoomAPIController::class);
     Route::resource('categories', \App\Http\Controllers\API\CategoryAPIController::class);
+    Route::resource('room_seats', \App\Http\Controllers\API\RoomSeatAPIController::class);
+    Route::resource('payments', \App\Http\Controllers\API\PaymentAPIController::class);
     Route::prefix('select-list')->group(function () {
         Route::get('/product', [\App\Http\Controllers\API\ProductController::class, 'getSelectList']);
         Route::get('/show', [\App\Http\Controllers\API\ShowController::class, 'getSelectList']);
@@ -35,8 +37,3 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('/user', [\App\Http\Controllers\API\AuthController::class, 'getUser']);
     });
 });
-
-
-Route::resource('room_seats', App\Http\Controllers\API\RoomSeatAPIController::class);
-
-Route::resource('payments', App\Http\Controllers\API\PaymentAPIController::class);

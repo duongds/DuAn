@@ -2,12 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Models\Product;
-
 class ProductRepository extends BaseRepository
 {
 
-    protected $fieldSearchable = [];
+    protected $fieldSearchable = [
+        'film_name',
+        'film_status'
+    ];
 
     /**
      * Return searchable fields
@@ -28,15 +29,24 @@ class ProductRepository extends BaseRepository
         return \App\Models\Product::class;
     }
 
-    public function findByName($name)
+    public function filterFilmName($value)
     {
-        if ($name) {
-            return Product::where('film_name', 'like', '%' . $name . '%')->get();
+        if ($value) {
+            $name = $this->processSearch($value);
+            $this->query->where('film_name', 'like', '%' . $name . '%');
         }
     }
 
-    public function beforeAllQuery(){
-        $this->query->with(['category' => function($query) {
+    public function filterFilmStatus($value)
+    {
+        if (!is_null($value)) {
+            $this->query->where('film_status', $value);
+        }
+    }
+
+    public function beforeAllQuery()
+    {
+        $this->query->with(['category' => function ($query) {
             $query->select('category.id', 'category.name');
         }]);
     }

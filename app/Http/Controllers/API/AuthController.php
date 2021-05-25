@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\Requests\API\ChangePasswordAPIRequest;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -23,10 +24,10 @@ class AuthController extends AppBaseController
         $data = $request->all();
         $email_validate = User::where('email', $data['email'])->first();
         $name_validate = User::where('name', $data['name'])->first();
-        if ($email_validate){
+        if ($email_validate) {
             return $this->sendError('ER002', 400);
         }
-        if ($name_validate){
+        if ($name_validate) {
             return $this->sendError('ER003', 400);
         }
         $user = User::create([
@@ -86,5 +87,21 @@ class AuthController extends AppBaseController
     {
         $user = \Auth::user();
         return $this->sendResponse($user, 200);
+    }
+
+    public function changePassword(ChangePasswordAPIRequest $request)
+    {
+        $user = $request->user();
+        $input = $request->except(['skip', 'limit']);
+        if (!(Hash::check($input['current_password'], $user->password))) {
+            return $this->sendError('Nhập mật khẩu hiện tại không đúng.');
+        } else if ((Hash::check($input['new_password'], $user->password))) {
+            return $this->sendError('Password mới trùng password cũ.');
+        } else if ($input['new_password'] != $input['new_confirm_password']) {
+            return $this->sendError('Password mới và confirm password không khớp.');
+        }
+        $user->update(['password' => Hash::make($input['new_password'])]);
+
+        return $this->sendSuccess(200);
     }
 }
