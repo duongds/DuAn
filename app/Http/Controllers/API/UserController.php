@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Models\Category;
+use App\Repositories\CategoryRepository;
+use App\Repositories\UserCategoryXrefRepository;
 use App\Repositories\UserRepository;
 use App\Utils\CommonUtils;
 use Illuminate\Http\Request;
@@ -11,10 +14,14 @@ use Illuminate\Http\Response;
 class UserController extends AppBaseController
 {
     protected $userRepo;
+    protected $userCategoryXrefRepository;
+    protected $categoryRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository,UserCategoryXrefRepository $userCategoryXrefRepo, CategoryRepository $categoryRepo)
     {
         $this->userRepo = $userRepository;
+        $this->userCategoryXrefRepository = $userCategoryXrefRepo;
+        $this->categoryRepository = $categoryRepo;
     }
 
     /**
@@ -39,10 +46,26 @@ class UserController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        if ($data = $this->userRepo->create($input)) {
-            return $this->sendResponse($data,'store user successfully');
+        $input['category'] = explode(",", $input['category']);
+
+        $category_arr = Category::whereIn('name', $input['category'])->pluck('id')->toArray();
+        unset($input['category']);
+
+        \DB::beginTransaction();
+        try {
+            $data = $this->userRepo->create($input);
+
+            $this->userRepo->setModel()->find($data->id)->category()->sync($category_arr);
+
+            \DB::commit();
+
+            return $this->sendResponse($data, 'Store user successfully');
+
+        } catch (\Exception $e) {
+            \DB::rollBack();
+
+            return $this->sendError('Cant update user');
         }
-        return $this->sendError('cant store');
     }
 
     /**
@@ -66,10 +89,33 @@ class UserController extends AppBaseController
     public function update(Request $request, $id)
     {
         $input = $request->all();
-        if ($data = $this->userRepo->update($input, $id)) {
-            return $this->sendResponse($data,'update user successfully');
+        $user = $this->userRepo->find($id);
+
+        if (empty($user)) {
+            return $this->sendError('User not found');
         }
-        return $this->sendError('cant update user');
+
+        $input['category'] = explode(",", $input['category']);
+
+        $category_arr = Category::whereIn('name', $input['category'])->pluck('id')->toArray();
+        unset($input['category']);
+
+        \DB::beginTransaction();
+        try {
+            $data = $this->userRepo->update($input, $id);
+
+            $this->userRepo->setModel()->find($id)->category()->detach();
+            $this->userRepo->setModel()->find($id)->category()->sync($category_arr);
+
+            \DB::commit();
+
+            return $this->sendResponse($data, 'Update user success');
+
+        } catch (\Exception $e) {
+            \DB::rollBack();
+
+            return $this->sendError('Cant update user');
+        }
     }
 
     /**
