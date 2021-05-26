@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\Requests\API\CreateProductAPIRequest;
+use App\Http\Requests\API\UpdateProductAPIRequest;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProductCategoryXrefRepository;
@@ -41,13 +43,13 @@ class ProductController extends AppBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CreateProductAPIRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateProductAPIRequest $request)
     {
         $input = $request->all();
-        
+
         $file = $request->file('poster');
 
         $input['poster'] = $this->productRepo->uploadImage('product', $file);
@@ -88,11 +90,11 @@ class ProductController extends AppBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateProductAPIRequest $request
      * @param  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductAPIRequest $request, $id)
     {
 
         $input = $request->all();
