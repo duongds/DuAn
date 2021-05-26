@@ -22,6 +22,10 @@ class Product extends Model
         'film_status'
     ];
 
+    public static $rules = [
+        'poster' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+    ];
+
     public function shows(){
         return $this->hasMany(Show::class);
     }
