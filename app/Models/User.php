@@ -41,4 +41,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function category(){
+        return $this->belongsToMany(Category::class, 'user_category_xref');
+    }
 }

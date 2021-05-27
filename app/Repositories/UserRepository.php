@@ -21,5 +21,11 @@ class UserRepository extends BaseRepository{
     {
         return \App\Models\User::class;
     }
+    public function beforeAllQuery()
+    {
+        $this->query->with(['category' => function ($query) {
+            $query->select('category.id', 'category.name');
+        }]);
+    }
 }
 
