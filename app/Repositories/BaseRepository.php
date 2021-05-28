@@ -71,11 +71,7 @@ abstract class BaseRepository
     public function find($id, $columns = ['*'])
     {
         $this->query = $this->model->newQuery();
-
-        if (method_exists($this, 'beforeAllQuery')) {
-            $this->beforeAllQuery();
-        }
-
+        
         return $this->query->find($id, $columns);
     }
 
