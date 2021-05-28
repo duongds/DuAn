@@ -104,7 +104,10 @@ class ProductController extends AppBaseController
         if (empty($product)) {
             return $this->sendError('Product not found');
         }
-        $input['poster'] = $this->productRepo->uploadImage('product', $input['poster']);
+
+        $file = $request->file('poster');
+
+        $input['poster'] = $this->productRepo->uploadImage('product', $file);
 
         $input['category'] = explode(",", $input['category']);
 
@@ -144,5 +147,11 @@ class ProductController extends AppBaseController
         $input = $request->except(['skip', 'limit']);
         $data = $this->productRepo->allQuery($input, null, null, null)->get();
         return $this->sendResponse($data, 'get product successfully');
+    }
+
+    public function saveImage(Request $request){
+        $input = $request->except(['limit', 'skip']);
+        $file = $request->file('poster');
+        $data = $this->productRepo->uploadImage('product', $file, $input['old_poster']);
     }
 }

@@ -29,7 +29,7 @@ class UpdateProductAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return Product::$rules;
+        return [];
     }
 
     public function messages()

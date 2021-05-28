@@ -72,6 +72,10 @@ abstract class BaseRepository
     {
         $this->query = $this->model->newQuery();
 
+        if (method_exists($this, 'beforeAllQuery')) {
+            $this->beforeAllQuery();
+        }
+
         return $this->query->find($id, $columns);
     }
 
@@ -280,7 +284,7 @@ abstract class BaseRepository
         return addcslashes($input_search, '0!@#$%^&*\()_-+');
     }
 
-    public function uploadImage($path, $file)
+    public function uploadImage($path, $file, $old_data = null)
     {
         $filename = $file->getClientOriginalName();
         $name = '/storage/image/' . $path .'/' . $filename;
