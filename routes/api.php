@@ -27,6 +27,9 @@ Route::middleware(['auth:api', 'checkLockedUser'])->group(function () {
         Route::get('/product', [\App\Http\Controllers\API\ProductController::class, 'getSelectList']);
         Route::get('/show', [\App\Http\Controllers\API\ShowController::class, 'getSelectList']);
     });
+    Route::prefix('save')->group(function(){
+        Route::get('/image', [\App\Http\Controllers\API\ProductController::class, 'saveImage']);
+    });
 });
 
 Route::group(['prefix' => 'auth'], function () {

@@ -50,10 +50,6 @@ class ProductController extends AppBaseController
     {
         $input = $request->all();
 
-        $file = $request->file('poster');
-
-        $input['poster'] = $this->productRepo->uploadImage('product', $file);
-
         $input['category'] = explode(",", $input['category']);
 
         $category_arr = Category::whereIn('name', $input['category'])->pluck('id')->toArray();
@@ -152,6 +148,6 @@ class ProductController extends AppBaseController
     public function saveImage(Request $request){
         $input = $request->except(['limit', 'skip']);
         $file = $request->file('poster');
-        $data = $this->productRepo->uploadImage('product', $file, $input['old_poster']);
+        return  $this->productRepo->uploadImage('product', $file, $input['old_poster']);
     }
 }
