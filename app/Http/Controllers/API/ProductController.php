@@ -143,6 +143,9 @@ class ProductController extends AppBaseController
 
     public function saveImage(Request $request){
         $input = $request->except(['limit', 'skip']);
+        if (!isset($input['old_poster'])){
+            $input['old_poster'] = '';
+        }
         $file = $request->file('poster');
         return  $this->productRepo->uploadImage('product', $file, $input['old_poster']);
     }
