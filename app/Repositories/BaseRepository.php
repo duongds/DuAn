@@ -282,6 +282,9 @@ abstract class BaseRepository
 
     public function uploadImage($path, $file, $old_data = null)
     {
+        if (!is_null($old_data) && is_file(public_path() . $old_data)){
+            unlink(public_path() . $old_data);
+        }
         $filename = $file->getClientOriginalName();
         $name = '/storage/image/' . $path .'/' . $filename;
         $file->move(public_path() . '/storage/image/' . $path . '/', $filename);

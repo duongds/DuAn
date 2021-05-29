@@ -101,10 +101,6 @@ class ProductController extends AppBaseController
             return $this->sendError('Product not found');
         }
 
-        $file = $request->file('poster');
-
-        $input['poster'] = $this->productRepo->uploadImage('product', $file);
-
         $input['category'] = explode(",", $input['category']);
 
         $category_arr = Category::whereIn('name', $input['category'])->pluck('id')->toArray();
