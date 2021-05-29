@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             ProductCategoryXrefSeeder::class,
             RoomSeatSeeder::class,
-            UserCategoryXrefSeeder::class
+            UserCategoryXrefSeeder::class,
+            RoomSeeder::class,
         ]);
     }
 }
