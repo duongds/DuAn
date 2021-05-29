@@ -29,9 +29,9 @@ class CreateShowsTable extends Migration
 
         Schema::create('show_room', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('room_id')->index();
-            $table->unsignedInteger('show_id')->index();
-            $table->unsignedInteger('payment_id')->index();
+            $table->unsignedInteger('room_id')->index()->nullable();
+            $table->unsignedInteger('show_id')->index()->nullable();
+            $table->unsignedInteger('payment_id')->index()->nullable();
             $table->string('seat_column');
             $table->string('seat_row');
             $table->string('condition');
