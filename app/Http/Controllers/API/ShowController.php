@@ -44,7 +44,8 @@ class ShowController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        
+
+//        $this->showRepository->validateShow($input);
         \DB::beginTransaction();
         try {
 
@@ -108,4 +109,5 @@ class ShowController extends AppBaseController
 
         return $this->sendResponse($data, 'show select-list');
     }
+
 }

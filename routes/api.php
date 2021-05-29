@@ -23,10 +23,6 @@ Route::middleware(['auth:api', 'checkLockedUser'])->group(function () {
     Route::resource('categories', \App\Http\Controllers\API\CategoryAPIController::class);
     Route::resource('room_seats', \App\Http\Controllers\API\RoomSeatAPIController::class);
     Route::resource('payments', \App\Http\Controllers\API\PaymentAPIController::class);
-    Route::prefix('select-list')->group(function () {
-        Route::get('/product', [\App\Http\Controllers\API\ProductController::class, 'getSelectList']);
-        Route::get('/show', [\App\Http\Controllers\API\ShowController::class, 'getSelectList']);
-    });
     Route::prefix('save')->group(function(){
         Route::post('/image', [\App\Http\Controllers\API\ProductController::class, 'saveImage']);
     });
@@ -39,4 +35,9 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('/logout', [\App\Http\Controllers\API\AuthController::class, 'logout']);
         Route::get('/user', [\App\Http\Controllers\API\AuthController::class, 'getUser']);
     });
+});
+
+Route::prefix('select-list')->group(function () {
+    Route::get('/product', [\App\Http\Controllers\API\ProductController::class, 'getSelectList']);
+    Route::get('/show', [\App\Http\Controllers\API\ShowController::class, 'getSelectList']);
 });

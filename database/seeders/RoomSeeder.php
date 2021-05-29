@@ -15,5 +15,13 @@ class RoomSeeder extends Seeder
      */
     public function run()
     {
+        $category = [
+            ['name' => 'phong 1'],
+            ['name' => 'phong 2'],
+            ['name' => 'phong 3'],
+            ['name' => 'phong 4']
+        ];
+
+        DB::table('rooms')->insert($category);
     }
 }

@@ -90,7 +90,7 @@ class ProductController extends AppBaseController
      * @param  $id
      * @return Response
      */
-    public function update(UpdateProductAPIRequest $request, $id)
+    public function update(Request $request, $id)
     {
 
         $input = $request->all();
@@ -100,7 +100,7 @@ class ProductController extends AppBaseController
         if (empty($product)) {
             return $this->sendError('Product not found');
         }
-
+        dd($input);
         $input['category'] = explode(",", $input['category']);
 
         $category_arr = Category::whereIn('name', $input['category'])->pluck('id')->toArray();
