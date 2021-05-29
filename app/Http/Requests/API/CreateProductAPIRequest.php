@@ -36,9 +36,6 @@ class CreateProductAPIRequest extends APIRequest
     {
         return
             [
-                'poster.required' => 'cần gửi ảnh lên',
-                'poster.image' => 'file gửi lên cần là ảnh',
-                'poster.mimes' => 'ảnh gửi lên cần thuộc các định dạng jpeg,png,jpg,gif,svg.'
             ];
     }
 

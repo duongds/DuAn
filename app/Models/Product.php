@@ -23,7 +23,6 @@ class Product extends Model
     ];
 
     public static $rules = [
-        'poster' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
     ];
 
     public function shows(){
