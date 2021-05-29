@@ -17,7 +17,6 @@ class CreatePaymentsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id')->index();
             $table->string('amount')->nullable();
-            $table->unsignedInteger('show_id')->index();
             $table->date('payment_date')->nullable();
             $table->string('created_by')->nullable();
             $table->string('deleted_by')->nullable();

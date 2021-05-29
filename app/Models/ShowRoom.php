@@ -49,6 +49,7 @@ class ShowRoom extends Model
         'id' => 'integer',
         'show_id' => 'integer',
         'room_id' => 'integer',
+        'payment_id' => 'integer',
         'seat_column' => 'string',
         'seat_row' => 'string',
         'condition' => 'string',

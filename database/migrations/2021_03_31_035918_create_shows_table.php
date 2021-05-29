@@ -31,6 +31,7 @@ class CreateShowsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('room_id')->index();
             $table->unsignedInteger('show_id')->index();
+            $table->unsignedInteger('payment_id')->index();
             $table->string('seat_column');
             $table->string('seat_row');
             $table->string('condition');
