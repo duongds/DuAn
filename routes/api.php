@@ -36,9 +36,8 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('/user', [\App\Http\Controllers\API\AuthController::class, 'getUser']);
     });
 });
-Route::group(['auth:api'], function () {
-    Route::prefix('select-list')->group(function () {
-        Route::get('/product', [\App\Http\Controllers\API\ProductController::class, 'getSelectList']);
-        Route::get('/show', [\App\Http\Controllers\API\ShowController::class, 'getSelectList']);
-    });
+
+Route::prefix('select-list')->group(function () {
+    Route::get('/product', [\App\Http\Controllers\API\ProductController::class, 'getSelectList']);
+    Route::get('/show', [\App\Http\Controllers\API\ShowController::class, 'getSelectList']);
 });
