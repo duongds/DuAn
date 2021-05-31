@@ -16,6 +16,7 @@ class ShowRepository extends BaseRepository
     ];
 
     protected $fieldInList = [
+        'id',
         'product_id',
         'show_time',
         'show_date',
@@ -47,8 +48,10 @@ class ShowRepository extends BaseRepository
 
     public function beforeAllQuery()
     {
-        $this->query->with(['product' => function ($query) {
-            $query->select('id', 'film_name');
+        $this->query->with(['product' => function ($qr) {
+            $qr->select('*');
+        }, 'show_room' => function ($qx) {
+            $qx->select('*');
         }]);
     }
 
@@ -97,7 +100,7 @@ class ShowRepository extends BaseRepository
             $minute_exits = substr($show['product']['duration'], 3, 2) * 60;
             $second_exits = (int)substr($show['product']['duration'], 6, 2);
             // tg thêm mới > tg đã đặt + duration + 30 p hoặc tg thêm mới + duration + 30 phút < tg đã đặt
-            if (strtotime($show_time) + $hour + $minute + $second + 30 * 60 > strtotime($show['show_time']) && strtotime($show_time) < strtotime($show['show_time'])  ||
+            if (strtotime($show_time) + $hour + $minute + $second + 30 * 60 > strtotime($show['show_time']) && strtotime($show_time) < strtotime($show['show_time']) ||
                 strtotime($show['show_time']) + $hour_exits + $minute_exits + $second_exits + 30 * 60 > strtotime($show_time) && strtotime($show_time) > strtotime($show['show_time'])) {
                 return false;
             }

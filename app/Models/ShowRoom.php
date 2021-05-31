@@ -23,7 +23,7 @@ class ShowRoom extends Model
 
 
     public $table = 'show_room';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -33,6 +33,7 @@ class ShowRoom extends Model
     public $fillable = [
         'show_id',
         'room_id',
+        'payment_id',
         'seat_column',
         'seat_row',
         'condition',
@@ -65,5 +66,5 @@ class ShowRoom extends Model
     public static $rules = [
     ];
 
-    
+
 }

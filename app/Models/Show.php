@@ -23,4 +23,8 @@ class Show extends Model
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
+
+    public function show_room(){
+        return $this->hasMany(ShowRoom::class, 'show_id', 'id');
+    }
 }
