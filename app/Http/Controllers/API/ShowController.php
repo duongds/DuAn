@@ -31,7 +31,7 @@ class ShowController extends AppBaseController
     {
         $search = $request->except(['skip', 'limit']);
         $limit = $request->get('limit', CommonUtils::DEFAULT_LIMIT);
-        $data = $this->showRepository->paginate($search, $limit, null, null);
+        $data = $this->showRepository->paginate($search, $limit, null, ['id', 'desc']);
         return $this->sendResponse($data, 'Get list booking successfully');
     }
 
