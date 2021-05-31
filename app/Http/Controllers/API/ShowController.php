@@ -45,7 +45,9 @@ class ShowController extends AppBaseController
     {
         $input = $request->all();
 
-//        $this->showRepository->validateShow($input);
+        if(!$this->showRepository->validateShow($input['product_id'], $input['room_id'], $input['show_date'], $input['show_time'])){
+            return $this->sendError('Show thêm mới trùng với show khác');
+        }
         \DB::beginTransaction();
         try {
 

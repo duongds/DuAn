@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             RoomSeatSeeder::class,
             UserCategoryXrefSeeder::class,
             RoomSeeder::class,
+            ShowSeeder::class
         ]);
     }
 }

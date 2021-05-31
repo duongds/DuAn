@@ -18,11 +18,11 @@ class CreateShowsTable extends Migration
             $table->unsignedInteger('product_id')->nullable()->index();
             $table->date('show_date')->nullable()->index();
             $table->time('show_time')->nullable()->index();
-//            $table->json('room_status')->nullable();
+            $table->unsignedInteger('room_id')->nullable()->index();
             $table->string('created_by')->nullable();
             $table->string('deleted_by')->nullable();
             $table->string('modified_by')->nullable();
-            $table->unique(['product_id', 'show_date', 'show_time'], 'unique_show');
+            $table->unique(['product_id', 'show_date', 'show_time', 'room_id'], 'unique_show');
             $table->timestamps();
             $table->softDeletes();
         });

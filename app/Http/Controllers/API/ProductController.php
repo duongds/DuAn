@@ -36,7 +36,7 @@ class ProductController extends AppBaseController
     {
         $search = $request->except(['skip', 'limit']);
         $limit = $request->get('limit', CommonUtils::DEFAULT_LIMIT);
-        $data = $this->productRepo->paginate($search, $limit, null, null);
+        $data = $this->productRepo->paginate($search, $limit, null, ['created_at', 'desc']);
         return $this->sendResponse($data, 'Get list booking successfully');
     }
 
