@@ -11,9 +11,12 @@ use Illuminate\Http\Response;
 class RoomController extends AppBaseController
 {
     protected $roomRepo;
-    public function __construct(RoomRepository  $roomRepository){
-        $this->roomRepo=$roomRepository;
+
+    public function __construct(RoomRepository $roomRepository)
+    {
+        $this->roomRepo = $roomRepository;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,21 +39,21 @@ class RoomController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        if ($data = $this-> roomRepo->create($input)){
-            return $this->sendResponse($data,'Store successfully');
+        if ($data = $this->roomRepo->create($input)) {
+            return $this->sendResponse($data, 'Store successfully');
         }
         return $this->sendError('cant store');
     }
 
     /**
      * Display the specified resource.*
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show($id)
     {
-        $data=$this->roomRepo->find($id);
-        return $this->sendResponse($data,'Show roo, successfully');
+        $data = $this->roomRepo->find($id);
+        return $this->sendResponse($data, 'Show roo, successfully');
     }
 
     /**
@@ -63,8 +66,8 @@ class RoomController extends AppBaseController
     public function update(Request $request, $id)
     {
         $input = $request->all();
-        if ($data = $this->roomRepo->update($input,$id)) {
-            return $this->sendResponse($data,'Update room successfully');
+        if ($data = $this->roomRepo->update($input, $id)) {
+            return $this->sendResponse($data, 'Update room successfully');
         }
         return $this->sendError('cant update room');
     }
@@ -72,8 +75,9 @@ class RoomController extends AppBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
+     * @throws \Exception
      */
     public function destroy($id)
     {
@@ -81,5 +85,12 @@ class RoomController extends AppBaseController
             return $this->sendSuccess('delete successfully');
         }
         return $this->sendError('cant delete');
+    }
+
+    public function getSelectList(Request $request)
+    {
+        $input = $request->except(['skip', 'limit']);
+        $data = $this->roomRepo->allQuery($input, null, null, null)->get();
+        return $this->sendResponse($data, 'get room successfully');
     }
 }

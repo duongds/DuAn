@@ -40,4 +40,5 @@ Route::group(['prefix' => 'auth'], function () {
 Route::prefix('select-list')->group(function () {
     Route::get('/product', [\App\Http\Controllers\API\ProductController::class, 'getSelectList']);
     Route::get('/show', [\App\Http\Controllers\API\ShowController::class, 'getSelectList']);
+    Route::get('/room', [\App\Http\Controllers\API\RoomController::class, 'getSelectList']);
 });
