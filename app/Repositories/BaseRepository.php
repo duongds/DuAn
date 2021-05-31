@@ -260,7 +260,6 @@ abstract class BaseRepository
         if (is_array($orders) and count($orders)) {
             foreach ($orders as $orderBy => $orderDir) {
                 $orderBy = (in_array($orderBy, $this->fieldOrder)) ? $orderBy : $this->fieldOrder[0];
-
                 $this->query->orderBy($orderBy, $orderDir);
             }
         }
