@@ -10,6 +10,10 @@ class ProductRepository extends BaseRepository
         'film_status'
     ];
 
+    protected $fieldOrder = [
+        'id'
+    ];
+
     /**
      * Return searchable fields
      *
