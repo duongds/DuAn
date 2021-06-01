@@ -15,8 +15,8 @@ class CreateUserCategoryXref extends Migration
     {
         Schema::create('user_category_xref', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('category_id');
+            $table->unsignedInteger('user_id')->index()->nullable();
+            $table->unsignedInteger('category_id')->index()->nullable();
             $table->integer('count');
             $table->timestamps();
         });

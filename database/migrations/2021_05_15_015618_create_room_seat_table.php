@@ -15,7 +15,7 @@ class CreateRoomSeatTable extends Migration
     {
         Schema::create('room_seat', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('room_id');
+            $table->unsignedInteger('room_id')->index()->nullable();
             $table->string('seat_column');
             $table->string('seat_row');
             $table->string('condition');

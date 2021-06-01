@@ -30,8 +30,8 @@ class CreateProductsTable extends Migration
 
         Schema::create('product_category_xref', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('product_id');
-            $table->unsignedInteger('category_id');
+            $table->unsignedInteger('product_id')->index()->nullable();
+            $table->unsignedInteger('category_id')->index()->nullable();
             $table->timestamps();
         });
     }
