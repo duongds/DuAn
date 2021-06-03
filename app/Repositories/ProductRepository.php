@@ -10,6 +10,16 @@ class ProductRepository extends BaseRepository
         'film_status'
     ];
 
+    protected $fieldInList = [
+        'id',
+        'film_name',
+        'poster',
+        'duration',
+        'like',
+        'film_description',
+        'film_status',
+    ];
+
     protected $fieldOrder = [
         'id'
     ];

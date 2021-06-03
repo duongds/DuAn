@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Product;
 use App\Models\Show;
+use function Clue\StreamFilter\fun;
 
 class ShowRepository extends BaseRepository
 {
@@ -49,7 +50,9 @@ class ShowRepository extends BaseRepository
     public function beforeAllQuery()
     {
         $this->query->with(['product' => function ($qr) {
-            $qr->select('*');
+            $qr->select('products.id', 'products.film_name', 'products.poster', 'products.duration', 'products.like', 'products.film_description', 'products.film_status')->with(['category' => function ($qx) {
+                $qx->select('category.id', 'category.name', 'product_category_xref.product_id', 'product_category_xref.category_id');
+            }]);
         }, 'show_room' => function ($qx) {
             $qx->select('*');
         }]);

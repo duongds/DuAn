@@ -43,4 +43,8 @@ class PaymentRepository extends BaseRepository
     {
         return Payment::class;
     }
+
+    public function moMoPayment(){
+
+    }
 }
