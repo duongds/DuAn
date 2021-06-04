@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model as Model;
 
 
-
 /**
  * Class Payment
  * @package App\Models
@@ -26,11 +25,9 @@ class Payment extends Model
 
 
     public $table = 'payments';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-
 
 
     public $fillable = [
@@ -74,17 +71,13 @@ class Payment extends Model
         'modified_by' => 'nullable|string|max:255'
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
+
     public function user()
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
+
     public function show()
     {
         return $this->belongsTo(\App\Models\Show::class, 'show_id');

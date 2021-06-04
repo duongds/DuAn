@@ -3,6 +3,9 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Payment;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 use InfyOm\Generator\Request\APIRequest;
 
 class CreatePaymentAPIRequest extends APIRequest
@@ -25,5 +28,12 @@ class CreatePaymentAPIRequest extends APIRequest
     public function rules()
     {
         return Payment::$rules;
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json($validator->errors()->toArray(), Response::HTTP_BAD_REQUEST)
+        );
     }
 }

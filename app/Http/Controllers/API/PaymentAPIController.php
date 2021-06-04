@@ -2,28 +2,34 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreatePaymentAPIRequest;
 use App\Http\Requests\API\UpdatePaymentAPIRequest;
 use App\Models\Payment;
 use App\Repositories\PaymentRepository;
+use App\Repositories\ShowRoomRepository;
+use App\Repositories\UserRepository;
+use App\Utils\CommonUtils;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\PaymentResource;
 use Response;
 
 /**
  * Class PaymentController
  * @package App\Http\Controllers\API
  */
-
 class PaymentAPIController extends AppBaseController
 {
     /** @var  PaymentRepository */
     private $paymentRepository;
+    private $showRoomRepository;
+    private $userRepository;
 
-    public function __construct(PaymentRepository $paymentRepo)
+    public function __construct(PaymentRepository $paymentRepo, ShowRoomRepository $showRoomRepo, UserRepository $userRepo)
     {
         $this->paymentRepository = $paymentRepo;
+        $this->showRoomRepository = $showRoomRepo;
+        $this->userRepository = $userRepo;
     }
 
     /**
@@ -55,6 +61,61 @@ class PaymentAPIController extends AppBaseController
     public function store(CreatePaymentAPIRequest $request)
     {
         $input = $request->all();
+        //thông tin user
+        $user = $this->userRepository->getModel()::where('id', $input['user_id'])->first();
+        $last_monday = date("Y-m-d H:i:s", strtotime("last Monday of now"));
+//        dd($date , (string)Carbon::now());
+        //giá tiền phải trả
+        $paid_amount = 0;
+        // số lượng ghế đặt.
+        $seat_arr = $input['show_room'] ?? '';
+        foreach ($seat_arr as $seat) {
+            $price = 0;
+            switch ($seat['type']) {
+                case 'normal' :
+                    $price = CommonUtils::normalSeatPrice;
+                    break;
+                case 'vip' :
+                    $price = CommonUtils::vipSeatPrice;
+                    break;
+                case 'sweetbox' :
+                    $price = CommonUtils::sweetBoxSeatPrice;
+                    break;
+            }
+            if (substr($last_monday, 0, 10) == substr((string)Carbon::now(), 0, 10)) {
+                $paid_amount += 5000;
+                continue;
+            } else if ($user['is_u22']) {
+                $paid_amount += 7000;
+                continue;
+            } else {
+                switch ($user['member_point']) {
+                    case $user['member_point'] >= 50  :
+                        $paid_amount = $paid_amount + $price - $price * 5 / 100;
+                        break;
+                    case $user['member_point'] >= 200  :
+                        $paid_amount = $paid_amount + $price - $price * 10 / 100;
+                        break;
+                    case $user['member_point'] >= 500  :
+                        $paid_amount = $paid_amount + $price - $price * 20 / 100;
+                        break;
+                    default :
+                        $paid_amount = $price;
+                        break;
+                }
+                continue;
+            }
+        }
+        dd($paid_amount);
+
+//        \DB::beginTransaction();
+//        try {
+//
+//        } catch (\Exception $e) {
+//            \DB::rollBack();
+//
+//            return $this->sendError($e);
+//        }
 
         $payment = $this->paymentRepository->create($input);
 
@@ -112,9 +173,9 @@ class PaymentAPIController extends AppBaseController
      *
      * @param int $id
      *
+     * @return Response
      * @throws \Exception
      *
-     * @return Response
      */
     public function destroy($id)
     {

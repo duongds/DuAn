@@ -45,6 +45,18 @@ class PaymentRepository extends BaseRepository
     }
 
     public function moMoPayment(){
+        $response = \MoMoAIO::purchase([
+            'amount' => 20000,
+            'returnUrl' => 'http://45.77.241.194:5000/',
+            'notifyUrl' => 'http://45.77.241.194:5000/',
+            'orderId' => 'Mã đơn hàng',
+            'requestId' => 'Mã request id, gợi ý nên xài uuid4',
+        ])->send();
 
+        if ($response->isRedirect()) {
+            $redirectUrl = $response->getRedirectUrl();
+
+            // TODO: chuyển khách sang trang MoMo để thanh toán
+        }
     }
 }
