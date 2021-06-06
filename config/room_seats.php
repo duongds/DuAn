@@ -6,133 +6,133 @@ return [
             'room_id' => 1,
             'seat_column' => '1',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 1,
             'seat_column' => '2',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 1,
             'seat_column' => '3',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 1,
             'seat_column' => '4',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 1,
             'seat_column' => '1',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 1,
             'seat_column' => '2',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 1,
             'seat_column' => '3',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 1,
             'seat_column' => '4',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 1,
             'seat_column' => '1',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 1,
             'seat_column' => '2',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 1,
             'seat_column' => '3',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 1,
             'seat_column' => '4',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 1,
             'seat_column' => '1',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 1,
             'seat_column' => '2',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 1,
             'seat_column' => '3',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 1,
             'seat_column' => '4',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 1,
             'seat_column' => '1',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ],
         [
             'room_id' => 1,
             'seat_column' => '2',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ],
         [
             'room_id' => 1,
             'seat_column' => '3',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ]
     ],
@@ -141,168 +141,168 @@ return [
             'room_id' => 2,
             'seat_column' => '1',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '2',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '3',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '4',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '5',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '1',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '2',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '3',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '4',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '5',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '1',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 2,
             'seat_column' => '2',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 2,
             'seat_column' => '3',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 2,
             'seat_column' => '4',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 2,
             'seat_column' => '5',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 2,
             'seat_column' => '1',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '2',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '3',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 2,
             'seat_column' => '4',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '5',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 2,
             'seat_column' => '1',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ],
         [
             'room_id' => 2,
             'seat_column' => '2',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ],
         [
             'room_id' => 2,
             'seat_column' => '3',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ],
         [
             'room_id' => 2,
             'seat_column' => '4',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ]
     ],
@@ -311,195 +311,195 @@ return [
             'room_id' => 3,
             'seat_column' => '1',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '2',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '3',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '4',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '5',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '1',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '2',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '3',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '4',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '5',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '1',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 3,
             'seat_column' => '2',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 3,
             'seat_column' => '3',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 3,
             'seat_column' => '4',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 3,
             'seat_column' => '5',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 3,
             'seat_column' => '1',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '2',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 3,
             'seat_column' => '3',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 3,
             'seat_column' => '4',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 3,
             'seat_column' => '5',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],[
             'room_id' => 3,
             'seat_column' => '1',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '2',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '3',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 3,
             'seat_column' => '4',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '5',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 3,
             'seat_column' => '1',
             'seat_row' => 'F',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ],
         [
             'room_id' => 3,
             'seat_column' => '2',
             'seat_row' => 'F',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ],
         [
             'room_id' => 3,
             'seat_column' => '3',
             'seat_row' => 'F',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ],
     ],
@@ -508,201 +508,201 @@ return [
             'room_id' => 4,
             'seat_column' => '1',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '2',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '3',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '4',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '5',
             'seat_row' => 'A',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '1',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '2',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '3',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '4',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '5',
             'seat_row' => 'B',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '1',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 4,
             'seat_column' => '2',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 4,
             'seat_column' => '3',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 4,
             'seat_column' => '4',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 4,
             'seat_column' => '5',
             'seat_row' => 'C',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 4,
             'seat_column' => '1',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '2',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 4,
             'seat_column' => '3',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 4,
             'seat_column' => '4',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 4,
             'seat_column' => '5',
             'seat_row' => 'D',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],[
             'room_id' => 4,
             'seat_column' => '1',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '2',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '3',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'vip'
         ],
         [
             'room_id' => 4,
             'seat_column' => '4',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '5',
             'seat_row' => 'E',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'normal'
         ],
         [
             'room_id' => 4,
             'seat_column' => '1',
             'seat_row' => 'F',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ],
         [
             'room_id' => 4,
             'seat_column' => '2',
             'seat_row' => 'F',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ],
         [
             'room_id' => 4,
             'seat_column' => '3',
             'seat_row' => 'F',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ],[
             'room_id' => 4,
             'seat_column' => '4',
             'seat_row' => 'F',
-            'condition' => 'empty',
+            'condition' => '0',
             'type' => 'sweetbox'
         ],
     ],
