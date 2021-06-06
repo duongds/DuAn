@@ -34,7 +34,7 @@ class CreateShowsTable extends Migration
             $table->unsignedInteger('payment_id')->index()->nullable();
             $table->string('seat_column');
             $table->string('seat_row');
-            $table->string('condition');
+            $table->tinyInteger('condition')->default(0);
 //            $table->json('room_status')->nullable();
             $table->string('type');
             $table->dateTime('show_time');

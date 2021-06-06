@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function logQuery()
     {
-        if (env('LOG_QUERY', false)) {
+        if (env('LOG_QUERY', true)) {
             $maxSize = 2000000; // ~2Mb
             $nameFix = 'query/sql-' . date('Y-m-d');
             $name = "{$nameFix}.sql";

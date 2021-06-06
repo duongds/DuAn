@@ -12,6 +12,8 @@ use App\Repositories\UserRepository;
 use App\Utils\CommonUtils;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Omnipay\Omnipay;
 use Response;
 
 /**
@@ -61,63 +63,40 @@ class PaymentAPIController extends AppBaseController
     public function store(CreatePaymentAPIRequest $request)
     {
         $input = $request->all();
-        //thông tin user
         $user = $this->userRepository->getModel()::where('id', $input['user_id'])->first();
-        $last_monday = date("Y-m-d H:i:s", strtotime("last Monday of now"));
-//        dd($date , (string)Carbon::now());
-        //giá tiền phải trả
-        $paid_amount = 0;
-        // số lượng ghế đặt.
         $seat_arr = $input['show_room'] ?? '';
-        foreach ($seat_arr as $seat) {
-            $price = 0;
-            switch ($seat['type']) {
-                case 'normal' :
-                    $price = CommonUtils::normalSeatPrice;
-                    break;
-                case 'vip' :
-                    $price = CommonUtils::vipSeatPrice;
-                    break;
-                case 'sweetbox' :
-                    $price = CommonUtils::sweetBoxSeatPrice;
-                    break;
+
+        \DB::beginTransaction();
+        try {
+            $payment_info = [
+                'user_id' => $user['id'],
+                'amount' => $input['paid_amount'],
+                'payments_date' => Carbon::now()
+            ];
+            $payment = $this->paymentRepository->create($payment_info);
+
+            foreach ($seat_arr as $seat) {
+                $seat_status = [
+                    'payment_id' => $payment->id,
+                    'condition' => 1
+                ];
+                $this->showRoomRepository->update($seat_status, $seat['id']);
             }
-            if (substr($last_monday, 0, 10) == substr((string)Carbon::now(), 0, 10)) {
-                $paid_amount += 5000;
-                continue;
-            } else if ($user['is_u22']) {
-                $paid_amount += 7000;
-                continue;
-            } else {
-                switch ($user['member_point']) {
-                    case $user['member_point'] >= 50  :
-                        $paid_amount = $paid_amount + $price - $price * 5 / 100;
-                        break;
-                    case $user['member_point'] >= 200  :
-                        $paid_amount = $paid_amount + $price - $price * 10 / 100;
-                        break;
-                    case $user['member_point'] >= 500  :
-                        $paid_amount = $paid_amount + $price - $price * 20 / 100;
-                        break;
-                    default :
-                        $paid_amount = $price;
-                        break;
-                }
-                continue;
-            }
+
+            $this->userRepository->update(['member_point' => $input['mem_pts_plus']], $user['id']);
+
+
+        } catch (\Exception $e) {
+            \DB::rollBack();
+
+            return $this->sendError($e);
         }
-        dd($paid_amount);
-
-//        \DB::beginTransaction();
-//        try {
-//
-//        } catch (\Exception $e) {
-//            \DB::rollBack();
-//
-//            return $this->sendError($e);
-//        }
-
-        $payment = $this->paymentRepository->create($input);
+        // thông tin cuối khách hàng nhận được
+        $user_payment = [
+          'payment_id' => $payment->id,
+          'user' => $user['name'],
+          'show_room' => $seat_arr
+        ];
 
         return $this->sendResponse($payment, 'Payment saved successfully');
     }
@@ -189,5 +168,111 @@ class PaymentAPIController extends AppBaseController
         $payment->delete();
 
         return $this->sendSuccess('Payment deleted successfully');
+    }
+
+    public function calculateUserPayment(Request $request){
+        //thông tin user
+        $input = $request->all();
+        $user = $this->userRepository->getModel()::where('id', $input['user_id'])->first();
+        $last_monday = date("Y-m-d H:i:s", strtotime("last Monday of now"));
+        $mem_pts_plus = 0;
+//        dd($date , (string)Carbon::now());
+        //giá tiền phải trả
+        $paid_amount = 0;
+        // số lượng ghế đặt.
+        $seat_arr = $input['show_room'] ?? '';
+        foreach ($seat_arr as $seat) {
+            $price = 0;
+            switch ($seat['type']) {
+                case 'normal' :
+                    $mem_pts_plus++;
+                    $price = CommonUtils::normalSeatPrice;
+                    break;
+                case 'vip' :
+                    $mem_pts_plus += 2;
+                    $price = CommonUtils::vipSeatPrice;
+                    break;
+                case 'sweetbox' :
+                    $mem_pts_plus += 3;
+                    $price = CommonUtils::sweetBoxSeatPrice;
+                    break;
+            }
+
+            //calculate
+            if (substr($last_monday, 0, 10) == substr((string)Carbon::now(), 0, 10)) {
+                $paid_amount += CommonUtils::lastMondayPrice;
+                continue;
+            } else if ($user['is_u22']) {
+                $paid_amount += CommonUtils::u22Price;
+                continue;
+            } else {
+                // member bạc
+                if (50 <= $user['member_point'] && $user['member_point'] < 200) {
+                    $paid_amount += ($price - $price * 5 / 100);
+                } //member vàng
+                else if (200 <= $user['member_point'] && $user['member_point'] < 500) {
+                    $paid_amount += ($price - $price * 10 / 100);
+                } //member kim cương
+                else if (500 <= $user['member_point']) {
+                    $paid_amount += ($price - $price * 20 / 100);
+                } else {
+                    $paid_amount += $price;
+                }
+                continue;
+            }
+        }
+        $payment = $input;
+        $payment['paid_amount'] = $paid_amount;
+        $payment['mem_pts_plus'] = $mem_pts_plus;
+        return $this->sendResponse($payment, 'Payment saved successfully');
+    }
+
+    public function MoMoPayment(Request $request){
+        $input = $request->all();
+        $gateway = Omnipay::create('MoMo_AllInOne');
+        $gateway->initialize([
+            'accessKey' => 'RRsnLaTBWn5eSv1j',
+            'partnerCode' => 'MOMOAWPY20210524',
+            'secretKey' => 'Jhcnxmfz45IyVdX5ixXm4kOO4vy37gG6',
+        ]);
+
+        $response = $gateway->purchase([
+            'amount' => 10000,
+            'returnUrl' => 'https://momo.vn/',
+            'notifyUrl' => 'https://momo.vn/',
+            'orderId' => $input['orderId'],
+            'requestId' => $input['requestId'],
+        ])->send();
+
+        if ($response->isRedirect()) {
+            $redirectUrl = $response->payUrl;
+            // TODO: chuyển khách sang trang MoMo để thanh toán
+            return Redirect::to($redirectUrl);
+        }
+
+        return $this->sendError('sai response hoac yeu cau dang dc xu ly', 404);
+    }
+
+    public function CompleteMomoPayment(){
+
+        $gateway = Omnipay::create('MoMo_AllInOne');
+        $gateway->initialize([
+            'accessKey' => 'klm05TvNBzhg7h7j',
+            'partnerCode' => 'MOMOBKUN20180529',
+            'secretKey' => 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa',
+        ]);
+        $response = $gateway->completePurchase()->send();
+
+        if ($response->isSuccessful()) {
+            // TODO: xử lý kết quả và hiển thị.
+            print $response->amount;
+            print $response->orderId;
+
+            var_dump($response->getData()); // toàn bộ data do MoMo gửi sang.
+
+        } else {
+
+            print $response->getMessage();
+        }
     }
 }

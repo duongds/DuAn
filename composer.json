@@ -17,6 +17,7 @@
         "laravel/framework": "^8.12",
         "laravel/passport": "^10.1",
         "laravel/tinker": "^2.5",
+        "phpviet/laravel-omnipay": "^1.1",
         "phpviet/omnipay-momo": "^1.0"
     },
     "require-dev": {

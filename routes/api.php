@@ -26,6 +26,12 @@ Route::middleware(['auth:api', 'checkLockedUser'])->group(function () {
     Route::prefix('save')->group(function () {
         Route::post('/image', [\App\Http\Controllers\API\ProductController::class, 'saveImage']);
     });
+
+    Route::prefix('payment')->group(function () {
+        Route::post('calculate_payment', [\App\Http\Controllers\API\PaymentAPIController::class, 'calculateUserPayment']);
+        Route::post('momo_redirect', [\App\Http\Controllers\API\PaymentAPIController::class, 'MoMoPayment']);
+        Route::post('momo_complete_payment', [\App\Http\Controllers\API\PaymentAPIController::class, 'CompleteMomoPayment']);
+    });
 });
 
 Route::group(['prefix' => 'auth'], function () {

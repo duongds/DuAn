@@ -14,6 +14,8 @@ class CommonUtils
     const normalSeatPrice = 10000;
     const vipSeatPrice = 20000;
     const sweetBoxSeatPrice = 30000;
+    const lastMondayPrice = 5000;
+    const u22Price = 7000;
 
     const isAction = 'Action';
     const isComedy = 'Comedy';
