@@ -15,6 +15,8 @@ class ProductRepository extends BaseRepository
         'film_name',
         'poster',
         'duration',
+        'director',
+        'actor',
         'like',
         'film_description',
         'film_status',
@@ -61,7 +63,7 @@ class ProductRepository extends BaseRepository
     public function beforeAllQuery()
     {
         $this->query->with(['category' => function ($query) {
-            $query->select('category.id', 'category.name');
+            $query->select('category.id', 'category.name', 'product_category_xref.product_id', 'product_category_xref.category_id');
         }]);
     }
 }

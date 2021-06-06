@@ -17,13 +17,13 @@ class CommonUtils
     const lastMondayPrice = 5000;
     const u22Price = 7000;
 
-    const isAction = 'Action';
-    const isComedy = 'Comedy';
+    const isAction = 'Hành Động';
+    const isComedy = 'Hài Kịch';
     const isDrama = 'Drama';
-    const isFantasy = 'Fantasy';
-    const isHorror = 'Horror';
-    const isMystery = 'Mystery';
-    const isRomance = 'Romance';
-    const isThriller = 'Thriller';
-    const isAnimation = 'Animation';
+    const isFantasy = 'Kì Thú';
+    const isHorror = 'Kinh Dị';
+    const isMystery = 'Bí Ẩn';
+    const isRomance = 'Lãng Mạng';
+    const isThriller = 'Kịch Tính';
+    const isAnimation = 'Hoạt Hình';
 }

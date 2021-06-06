@@ -18,6 +18,8 @@ class CreateProductsTable extends Migration
             $table->string('film_name')->nullable();
             $table->string('poster')->nullable();
             $table->time('duration')->nullable();
+            $table->string('director')->nullable();
+            $table->string('actor')->nullable();
             $table->integer('like')->nullable();
             $table->string('film_description')->nullable();
             $table->tinyInteger('film_status')->nullable();

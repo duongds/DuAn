@@ -137,7 +137,7 @@ class ProductController extends AppBaseController
     public function getSelectList(Request $request)
     {
         $input = $request->except(['skip', 'limit']);
-        $data = $this->productRepo->allQuery($input, null, null, null)->get();
+        $data = $this->productRepo->all($input, null, null, null, ['id' => 'asc']);
         return $this->sendResponse($data, 'get product successfully');
     }
 

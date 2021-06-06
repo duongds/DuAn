@@ -14,9 +14,10 @@ class Product extends Model
 
     protected $fillable = [
         'film_name',
-        'category',
         'poster',
         'duration',
+        'director',
+        'actor',
         'like',
         'film_description',
         'film_status'
