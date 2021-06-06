@@ -18,8 +18,8 @@ class CreateRoomSeatTable extends Migration
             $table->unsignedInteger('room_id')->index()->nullable();
             $table->string('seat_column');
             $table->string('seat_row');
-            $table->string('condition');
-            $table->string('type');
+            $table->integer('condition')->default(0)->nullable();
+            $table->string('type')->nullable();
             $table->unique(['room_id', 'seat_column', 'seat_row'], 'unique_room_seat');
             $table->timestamps();
         });
