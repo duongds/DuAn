@@ -27,7 +27,7 @@ class PaymentAPIController extends AppBaseController
     private $showRoomRepository;
     private $userRepository;
 
-    public function __construct(PaymentRepository $paymentRepo, ShowRoomRepository $showRoomRepo, UserRepository $userRepo, $gateway)
+    public function __construct(PaymentRepository $paymentRepo, ShowRoomRepository $showRoomRepo, UserRepository $userRepo)
     {
         $this->paymentRepository = $paymentRepo;
         $this->showRoomRepository = $showRoomRepo;
@@ -229,7 +229,13 @@ class PaymentAPIController extends AppBaseController
 
     public function redirectMoMoPayment(Request $request){
         $input = $request->all();
-
+        $gateway = Omnipay::create('MoMo_AllInOne');
+        $gateway->initialize([
+            'accessKey' => 'klm05TvNBzhg7h7j',
+            'partnerCode' => 'MOMOBKUN20180529',
+            'secretKey' => 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa',
+            'testMode' => true,
+        ]);
         $response = $gateway->purchase([
             'amount' => 1000,
             'returnUrl' => 'https://momo.vn/',
