@@ -109,12 +109,14 @@ class ShowController extends AppBaseController
     public function getSelectList(Request $request)
     {
         $input = $request->except(['skip', 'limit']);
-        $data = $this->showRepository->all($input, null, null, null, ['id' => 'desc'])->first();
+        $data = $this->showRepository->all($input, null, null, null, ['id' => 'desc']);
+
+        $data1 = $data[0];
         if (isset($input['room_id']) && !is_null($data)) {
-            $search['show_id'] = $data->id;
-            $search['room_id'] = $data->room_id;
-            $search['show_time'] = $data->show_date . " " . $data->show_time;
-            $data->show_room = $this->showRoomRepository->all($search, null, null, null, ['id' => 'desc']);
+            $search['show_id'] = $data1->id;
+            $search['room_id'] = $data1->room_id;
+            $search['show_time'] = $data1->show_date . " " . $data1->show_time;
+            $data1->show_room = $this->showRoomRepository->all($search, null, null, null, ['id' => 'desc']);
         }
         return $this->sendResponse($data, 'show select-list');
     }
