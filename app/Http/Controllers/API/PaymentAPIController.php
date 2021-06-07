@@ -27,7 +27,7 @@ class PaymentAPIController extends AppBaseController
     private $showRoomRepository;
     private $userRepository;
 
-    public function __construct(PaymentRepository $paymentRepo, ShowRoomRepository $showRoomRepo, UserRepository $userRepo)
+    public function __construct(PaymentRepository $paymentRepo, ShowRoomRepository $showRoomRepo, UserRepository $userRepo, $gateway)
     {
         $this->paymentRepository = $paymentRepo;
         $this->showRoomRepository = $showRoomRepo;
@@ -227,33 +227,29 @@ class PaymentAPIController extends AppBaseController
         return $this->sendResponse($payment, 'Payment saved successfully');
     }
 
-    public function MoMoPayment(Request $request){
+    public function redirectMoMoPayment(Request $request){
         $input = $request->all();
-        $gateway = Omnipay::create('MoMo_AllInOne');
-        $gateway->initialize([
-            'accessKey' => 'klm05TvNBzhg7h7j',
-            'partnerCode' => 'MOMOBKUN20180529',
-            'secretKey' => 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa',
-        ]);
 
         $response = $gateway->purchase([
             'amount' => 1000,
             'returnUrl' => 'https://momo.vn/',
             'notifyUrl' => 'https://momo.vn/',
-            'orderId' => $input['orderId'],
-            'requestId' => $input['requestId'],
+            'orderId' => '162303290821',
+            'requestId' => '16230329081',
         ])->send();
 
-        if ($response->isRedirect()) {
-            $redirectUrl = $response->payUrl;
-            // TODO: chuyển khách sang trang MoMo để thanh toán
-            return Redirect::to($redirectUrl);
-        }
+        dd($response);
+//        if ($response->isRedirect()) {
+//            $redirectUrl = $response->payUrl;
+//            dd($redirectUrl);
+//            // TODO: chuyển khách sang trang MoMo để thanh toán
+//            return Redirect::to($redirectUrl);
+//        }
 
         return $this->sendError('sai response hoac yeu cau dang dc xu ly', 404);
     }
 
-    public function CompleteMomoPayment(){
+    public function confirmMoMoPayment(Request $gateway){
 
         $gateway = Omnipay::create('MoMo_AllInOne');
         $gateway->initialize([

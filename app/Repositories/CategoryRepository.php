@@ -3,20 +3,23 @@
 namespace App\Repositories;
 
 use App\Models\Category;
-use App\Repositories\BaseRepository;
 
 /**
  * Class CategoryRepository
  * @package App\Repositories
  * @version May 18, 2021, 6:50 am UTC
-*/
-
+ */
 class CategoryRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
+        'name'
+    ];
+
+    protected $fieldInList = [
+        'id',
         'name'
     ];
 

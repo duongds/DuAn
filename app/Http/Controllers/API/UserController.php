@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
-use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use App\Repositories\UserCategoryXrefRepository;
 use App\Repositories\UserRepository;
@@ -17,7 +16,7 @@ class UserController extends AppBaseController
     protected $userCategoryXrefRepository;
     protected $categoryRepository;
 
-    public function __construct(UserRepository $userRepository,UserCategoryXrefRepository $userCategoryXrefRepo, CategoryRepository $categoryRepo)
+    public function __construct(UserRepository $userRepository, UserCategoryXrefRepository $userCategoryXrefRepo, CategoryRepository $categoryRepo)
     {
         $this->userRepo = $userRepository;
         $this->userCategoryXrefRepository = $userCategoryXrefRepo;
@@ -46,26 +45,8 @@ class UserController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        $input['category'] = explode(",", $input['category']);
-
-        $category_arr = Category::whereIn('name', $input['category'])->pluck('id')->toArray();
-        unset($input['category']);
-
-        \DB::beginTransaction();
-        try {
-            $data = $this->userRepo->create($input);
-
-            $this->userRepo->setModel()->find($data->id)->category()->sync($category_arr);
-
-            \DB::commit();
-
-            return $this->sendResponse($data, 'Store user successfully');
-
-        } catch (\Exception $e) {
-            \DB::rollBack();
-
-            return $this->sendError('Cant update user');
-        }
+        $data = $this->userRepo->create($input);
+        return $this->sendResponse($data, 'Store user successfully');
     }
 
     /**
@@ -76,7 +57,7 @@ class UserController extends AppBaseController
     public function show($id)
     {
         $data = $this->userRepo->find($id);
-        return $this->sendResponse($data,'show user successfully');
+        return $this->sendResponse($data, 'show user successfully');
     }
 
     /**
@@ -95,27 +76,10 @@ class UserController extends AppBaseController
             return $this->sendError('User not found');
         }
 
-        $input['category'] = explode(",", $input['category']);
+        $data = $this->userRepo->update($input, $id);
 
-        $category_arr = Category::whereIn('name', $input['category'])->pluck('id')->toArray();
-        unset($input['category']);
+        return $this->sendResponse($data, 'Update user success');
 
-        \DB::beginTransaction();
-        try {
-            $data = $this->userRepo->update($input, $id);
-
-            $this->userRepo->setModel()->find($id)->category()->detach();
-            $this->userRepo->setModel()->find($id)->category()->sync($category_arr);
-
-            \DB::commit();
-
-            return $this->sendResponse($data, 'Update user success');
-
-        } catch (\Exception $e) {
-            \DB::rollBack();
-
-            return $this->sendError('Cant update user');
-        }
     }
 
     /**
@@ -130,5 +94,18 @@ class UserController extends AppBaseController
             return $this->sendSuccess('delete successfully');
         }
         return $this->sendError('cant delete user');
+    }
+
+    public function userCategory(Request $request)
+    {
+        $input = $request->all();
+        $category_arr = $input['category'];
+        foreach ($category_arr as $category) {
+            $category['user_id'] = $input['user_id'];
+            $category['category_id'] = $category['id'];
+            unset($category['id']);
+            $this->userCategoryXrefRepository->create($category);
+        }
+        return $this->sendSuccess('save category_user successful');
     }
 }

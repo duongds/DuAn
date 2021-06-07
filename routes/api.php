@@ -25,12 +25,13 @@ Route::middleware(['auth:api', 'checkLockedUser'])->group(function () {
     Route::resource('payments', \App\Http\Controllers\API\PaymentAPIController::class);
     Route::prefix('save')->group(function () {
         Route::post('/image', [\App\Http\Controllers\API\ProductController::class, 'saveImage']);
+        Route::post('/user_category', [\App\Http\Controllers\API\UserController::class, 'userCategory']);
     });
 
     Route::prefix('payment')->group(function () {
         Route::post('calculate_payment', [\App\Http\Controllers\API\PaymentAPIController::class, 'calculateUserPayment']);
-        Route::post('momo_redirect', [\App\Http\Controllers\API\PaymentAPIController::class, 'MoMoPayment']);
-        Route::post('momo_complete_payment', [\App\Http\Controllers\API\PaymentAPIController::class, 'CompleteMomoPayment']);
+        Route::post('momo_redirect', [\App\Http\Controllers\API\PaymentAPIController::class, 'redirectMoMoPayment']);
+        Route::post('momo_confirm_payment', [\App\Http\Controllers\API\PaymentAPIController::class, 'confirmMoMoPayment']);
     });
 });
 
@@ -40,6 +41,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/logout', [\App\Http\Controllers\API\AuthController::class, 'logout']);
         Route::get('/user', [\App\Http\Controllers\API\AuthController::class, 'getUser']);
+        Route::post('/change_password', [\App\Http\Controllers\API\AuthController::class, 'changePassword']);
     });
 });
 

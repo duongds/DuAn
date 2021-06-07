@@ -10,6 +10,12 @@ class UserCategoryXrefRepository extends BaseRepository
 {
 
     protected $fieldSearchable = [];
+
+    protected $fieldInList = [
+        'user_id',
+        'category_id',
+        'count'
+    ];
     /**
      * @inheritDoc
      */

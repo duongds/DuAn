@@ -102,6 +102,6 @@ class AuthController extends AppBaseController
         }
         $user->update(['password' => Hash::make($input['new_password'])]);
 
-        return $this->sendSuccess(200);
+        return $this->sendSuccess('Thay đổi mật khẩu thành công');
     }
 }
