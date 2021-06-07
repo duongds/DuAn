@@ -149,4 +149,8 @@ class ProductController extends AppBaseController
         $file = $request->file('poster');
         return  $this->productRepo->uploadImage('product', $file, $input['old_poster']);
     }
+
+    public function  recommendFilm (){
+        return $this->productRepo->recommendProduct();
+    }
 }
