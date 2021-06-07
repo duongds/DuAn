@@ -116,7 +116,7 @@ class ShowController extends AppBaseController
             $search['show_id'] = $data1->id;
             $search['room_id'] = $data1->room_id;
             $search['show_time'] = $data1->show_date . " " . $data1->show_time;
-            $data1->show_room = $this->showRoomRepository->all($search, null, null, null, ['id' => 'desc']);
+            $data1->show_room = $this->showRoomRepository->all($search, null, null, null, ['id' => 'asc']);
         }
         return $this->sendResponse($data, 'show select-list');
     }
