@@ -53,8 +53,6 @@ class ShowRepository extends BaseRepository
             $qr->select('products.id', 'products.film_name', 'products.poster', 'products.duration', 'products.like', 'products.film_description', 'products.film_status')->with(['category' => function ($qx) {
                 $qx->select('category.id', 'category.name', 'product_category_xref.product_id', 'product_category_xref.category_id');
             }]);
-        }, 'show_room' => function ($qy) {
-            $qy->select('*');
         }]);
     }
 

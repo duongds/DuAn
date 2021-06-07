@@ -3,14 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\ShowRoom;
-use App\Repositories\BaseRepository;
 
 /**
  * Class ShowRoomRepository
  * @package App\Repositories
  * @version May 18, 2021, 6:50 am UTC
-*/
-
+ */
 class ShowRoomRepository extends BaseRepository
 {
     /**
@@ -24,6 +22,25 @@ class ShowRoomRepository extends BaseRepository
         'condition',
         'type',
         'show_time'
+    ];
+
+    protected $fieldInList = [
+        'id',
+        'show_id',
+        'room_id',
+        'seat_column',
+        'seat_row',
+        'condition',
+        'type',
+        'show_time'
+    ];
+
+    protected $fieldFilter = [
+        'id'
+    ];
+
+    protected $fieldOrder = [
+        'id'
     ];
 
     /**
@@ -42,5 +59,20 @@ class ShowRoomRepository extends BaseRepository
     public function getModel()
     {
         return ShowRoom::class;
+    }
+
+    public function filterShowId($value)
+    {
+        $this->query->where('show_id', $value);
+    }
+
+    public function filterRoomId($value)
+    {
+        $this->query->where('room_id', $value);
+    }
+
+    public function filterShowTime($value)
+    {
+        $this->query->where('show_time', $value);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Models\ShowRoom;
 use App\Repositories\RoomRepository;
 use App\Repositories\ShowRepository;
+use App\Repositories\ShowRoomRepository;
 use App\Utils\CommonUtils;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,11 +15,13 @@ class ShowController extends AppBaseController
 {
     protected $showRepository;
     protected $roomRepository;
+    protected $showRoomRepository;
 
-    public function __construct(ShowRepository $showRepo, RoomRepository $roomRepo)
+    public function __construct(ShowRepository $showRepo, RoomRepository $roomRepo, ShowRoomRepository $showRoomRepo)
     {
         $this->showRepository = $showRepo;
         $this->roomRepository = $roomRepo;
+        $this->showRoomRepository = $showRoomRepo;
     }
 
     /**
@@ -45,7 +48,7 @@ class ShowController extends AppBaseController
     {
         $input = $request->all();
 
-        if(!$this->showRepository->validateShow($input['product_id'], $input['room_id'], $input['show_date'], $input['show_time'])){
+        if (!$this->showRepository->validateShow($input['product_id'], $input['room_id'], $input['show_date'], $input['show_time'])) {
             return $this->sendError('Show thêm mới trùng với show khác');
         }
         \DB::beginTransaction();
@@ -106,9 +109,11 @@ class ShowController extends AppBaseController
     public function getSelectList(Request $request)
     {
         $input = $request->except(['skip', 'limit']);
-
-        $data = $this->showRepository->all($input, null, null, null, ['id' => 'desc']);
-
+        $data = $this->showRepository->all($input, null, null, null, ['id' => 'desc'])->first();
+        $search['show_id'] = $data->id;
+        $search['room_id'] = $data->room_id;
+        $search['show_time'] = $data->show_date . " " . $data->show_time;
+        $data->show_room = $this->showRoomRepository->all($search, null, null, null, ['id' => 'desc']);
         return $this->sendResponse($data, 'show select-list');
     }
 

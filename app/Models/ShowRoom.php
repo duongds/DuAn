@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\Model as Model;
  */
 class ShowRoom extends Model
 {
-    use \Awobaz\Compoships\Compoships;
 
     public $table = 'show_room';
 
@@ -65,9 +64,5 @@ class ShowRoom extends Model
      */
     public static $rules = [
     ];
-
-    public function show(){
-        return $this->belongsTo(Show::class, ['show_id', 'room_id'], ['id', 'room_id']);
-    }
 
 }

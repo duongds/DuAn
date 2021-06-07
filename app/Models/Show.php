@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Awobaz\Compoships\Compoships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Show extends Model
 {
-    use HasFactory, SoftDeletes, Compoships;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'shows';
 
@@ -26,6 +25,6 @@ class Show extends Model
     }
 
     public function show_room(){
-        return $this->hasMany(ShowRoom::class, ['show_id', 'room_id'], ['id', 'room_id']);
+        return $this->hasMany(ShowRoom::class, 'show_id', 'id');
     }
 }
