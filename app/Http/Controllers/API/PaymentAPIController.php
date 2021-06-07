@@ -231,13 +231,13 @@ class PaymentAPIController extends AppBaseController
         $input = $request->all();
         $gateway = Omnipay::create('MoMo_AllInOne');
         $gateway->initialize([
-            'accessKey' => 'RRsnLaTBWn5eSv1j',
-            'partnerCode' => 'MOMOAWPY20210524',
-            'secretKey' => 'Jhcnxmfz45IyVdX5ixXm4kOO4vy37gG6',
+            'accessKey' => 'klm05TvNBzhg7h7j',
+            'partnerCode' => 'MOMOBKUN20180529',
+            'secretKey' => 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa',
         ]);
 
         $response = $gateway->purchase([
-            'amount' => 10000,
+            'amount' => 1000,
             'returnUrl' => 'https://momo.vn/',
             'notifyUrl' => 'https://momo.vn/',
             'orderId' => $input['orderId'],
