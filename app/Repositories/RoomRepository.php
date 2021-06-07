@@ -5,7 +5,10 @@ namespace App\Repositories;
 class RoomRepository extends BaseRepository
 {
 
-    protected $fieldSearchable = [];
+    protected $fieldSearchable = [
+        'room_id'
+    ];
+
     protected $fieldOrder = ['id'];
 
     /**
@@ -25,6 +28,12 @@ class RoomRepository extends BaseRepository
     public function getModel()
     {
         return \App\Models\Room::class;
+    }
+
+    public function filterRoomId($value){
+        if ($value){
+            $this->query->where('id', $value);
+        }
     }
 
     public function beforeAllQuery(){
