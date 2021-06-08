@@ -232,9 +232,9 @@ class PaymentAPIController extends AppBaseController
         $input = $request->all();
         $gateway = Omnipay::create('MoMo_AllInOne');
         $gateway->initialize([
-            'accessKey' => 'klm05TvNBzhg7h7j',
-            'partnerCode' => 'MOMOBKUN20180529',
-            'secretKey' => 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa',
+            'accessKey' => 'RRsnLaTBWn5eSv1j',
+            'partnerCode' => 'MOMOAWPY20210524',
+            'secretKey' => 'Jhcnxmfz45IyVdX5ixXm4kOO4vy37gG6',
         ]);
         $response = $gateway->purchase([
             'amount' => $input['amount'],
@@ -244,12 +244,13 @@ class PaymentAPIController extends AppBaseController
             'requestId' => $input['requestId'],
         ])->send();
 
-        if ($response->isRedirect()) {
-            return $response->payUrl;
+        $user_request = $response->getData();
+        if ($user_request['errorCode'] == 0) {
+            return $user_request['payUrl'];
             // TODO: chuyển khách sang trang MoMo để thanh toán
         }
 
-        return $this->sendError('sai response hoac yeu cau dang dc xu ly', 404);
+        return $this->sendError($user_request['message'], 404);
     }
 
     public function confirmMoMoPayment(Request $request)
