@@ -27,6 +27,8 @@ Route::middleware(['auth:api', 'checkLockedUser'])->group(function () {
         Route::post('/image', [\App\Http\Controllers\API\ProductController::class, 'saveImage']);
         Route::post('/user_category', [\App\Http\Controllers\API\UserController::class, 'userCategory']);
     });
+    Route::get('recommend',[\App\Http\Controllers\API\ProductController::class, 'recommendFilm']);
+
 
     Route::prefix('payment')->group(function () {
         Route::post('calculate_payment', [\App\Http\Controllers\API\PaymentAPIController::class, 'calculateUserPayment']);
