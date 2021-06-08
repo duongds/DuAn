@@ -256,5 +256,6 @@ class PaymentAPIController extends AppBaseController
     public function confirmMoMoPayment(Request $request)
     {
         $input = $request->all();
+        dd($input);
     }
 }
