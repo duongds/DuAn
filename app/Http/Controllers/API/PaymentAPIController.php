@@ -12,7 +12,6 @@ use App\Repositories\UserRepository;
 use App\Utils\CommonUtils;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Omnipay\Omnipay;
 use Response;
 
@@ -93,9 +92,9 @@ class PaymentAPIController extends AppBaseController
         }
         // thông tin cuối khách hàng nhận được
         $user_payment = [
-          'payment_id' => $payment->id,
-          'user' => $user['name'],
-          'show_room' => $seat_arr
+            'payment_id' => $payment->id,
+            'user' => $user['name'],
+            'show_room' => $seat_arr
         ];
 
         return $this->sendResponse($payment, 'Payment saved successfully');
@@ -170,7 +169,8 @@ class PaymentAPIController extends AppBaseController
         return $this->sendSuccess('Payment deleted successfully');
     }
 
-    public function calculateUserPayment(Request $request){
+    public function calculateUserPayment(Request $request)
+    {
         //thông tin user
         $input = $request->all();
         $user = $this->userRepository->getModel()::where('id', $input['user_id'])->first();
@@ -227,54 +227,33 @@ class PaymentAPIController extends AppBaseController
         return $this->sendResponse($payment, 'Payment saved successfully');
     }
 
-    public function redirectMoMoPayment(Request $request){
+    public function redirectMoMoPayment(Request $request)
+    {
         $input = $request->all();
         $gateway = Omnipay::create('MoMo_AllInOne');
         $gateway->initialize([
             'accessKey' => 'klm05TvNBzhg7h7j',
             'partnerCode' => 'MOMOBKUN20180529',
             'secretKey' => 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa',
-            'testMode' => true,
         ]);
         $response = $gateway->purchase([
-            'amount' => 1000,
-            'returnUrl' => 'https://momo.vn/',
-            'notifyUrl' => 'https://momo.vn/',
-            'orderId' => '162303290821',
-            'requestId' => '16230329081',
+            'amount' => $input['amount'],
+            'returnUrl' => $input['returnUrl'],
+            'notifyUrl' => $input['notifyUrl'],
+            'orderId' => $input['orderId'],
+            'requestId' => $input['requestId'],
         ])->send();
 
-        dd($response);
-//        if ($response->isRedirect()) {
-//            $redirectUrl = $response->payUrl;
-//            dd($redirectUrl);
-//            // TODO: chuyển khách sang trang MoMo để thanh toán
-//            return Redirect::to($redirectUrl);
-//        }
+        if ($response->isRedirect()) {
+            return $response->payUrl;
+            // TODO: chuyển khách sang trang MoMo để thanh toán
+        }
 
         return $this->sendError('sai response hoac yeu cau dang dc xu ly', 404);
     }
 
-    public function confirmMoMoPayment(Request $gateway){
-
-        $gateway = Omnipay::create('MoMo_AllInOne');
-        $gateway->initialize([
-            'accessKey' => 'klm05TvNBzhg7h7j',
-            'partnerCode' => 'MOMOBKUN20180529',
-            'secretKey' => 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa',
-        ]);
-        $response = $gateway->completePurchase()->send();
-
-        if ($response->isSuccessful()) {
-            // TODO: xử lý kết quả và hiển thị.
-            print $response->amount;
-            print $response->orderId;
-
-            var_dump($response->getData()); // toàn bộ data do MoMo gửi sang.
-
-        } else {
-
-            print $response->getMessage();
-        }
+    public function confirmMoMoPayment(Request $request)
+    {
+        $input = $request->all();
     }
 }

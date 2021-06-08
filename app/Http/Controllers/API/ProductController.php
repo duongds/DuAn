@@ -54,6 +54,17 @@ class ProductController extends AppBaseController
 
         $category_arr = Category::whereIn('name', $input['category'])->pluck('id')->toArray();
         unset($input['category']);
+        $img_arr = ['jpeg','png','jpg','gif','svg'];
+        $is_image = false;
+        foreach ($img_arr as $img){
+            if (strpos($input['poster'], $img)){
+                $is_image = true;
+                break;
+            }
+        }
+        if (!$is_image){
+            return $this->sendError('Định dạng file gửi lên phải là ảnh');
+        }
 
         \DB::beginTransaction();
         try {

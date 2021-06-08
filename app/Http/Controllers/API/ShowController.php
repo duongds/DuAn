@@ -51,6 +51,10 @@ class ShowController extends AppBaseController
         if (!$this->showRepository->validateShow($input['product_id'], $input['room_id'], $input['show_date'], $input['show_time'])) {
             return $this->sendError('Show thêm mới trùng với show khác');
         }
+
+        if(!isset($input['show_date']) && !isset($input['show_time'])){
+            return $this->sendError('Show thêm mới cần có thời gian cụ thể');
+        }
         \DB::beginTransaction();
         try {
 
