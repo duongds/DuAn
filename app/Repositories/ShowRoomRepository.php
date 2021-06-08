@@ -32,7 +32,6 @@ class ShowRoomRepository extends BaseRepository
         'seat_row',
         'condition',
         'type',
-        'show_time'
     ];
 
     protected $fieldFilter = [

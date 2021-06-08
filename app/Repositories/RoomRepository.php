@@ -38,7 +38,7 @@ class RoomRepository extends BaseRepository
 
     public function beforeAllQuery(){
         $this->query->with(['room_seat' => function($qe){
-            $qe->select('seat_column', 'seat_row', 'condition', 'type', 'room_id')->orderBy('seat_row');
+            $qe->select('seat_column', 'seat_row', 'condition', 'type', 'room_id')->orderBy('seat_row', 'asc')->orderBy('seat_column', 'asc');
         }]);
     }
 }

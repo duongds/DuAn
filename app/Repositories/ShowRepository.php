@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Product;
 use App\Models\Show;
-use function Clue\StreamFilter\fun;
 
 class ShowRepository extends BaseRepository
 {

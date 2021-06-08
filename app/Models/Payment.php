@@ -63,12 +63,7 @@ class Payment extends Model
      */
     public static $rules = [
         'user_id' => 'required|integer',
-        'amount' => 'nullable|string|max:255',
         'show_id' => 'required|integer',
-        'payment_date' => 'nullable',
-        'created_by' => 'nullable|string|max:255',
-        'deleted_by' => 'nullable|string|max:255',
-        'modified_by' => 'nullable|string|max:255'
     ];
 
 

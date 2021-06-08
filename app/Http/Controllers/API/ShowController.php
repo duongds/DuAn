@@ -52,7 +52,7 @@ class ShowController extends AppBaseController
             return $this->sendError('Show thêm mới trùng với show khác');
         }
 
-        if(!isset($input['show_date']) && !isset($input['show_time'])){
+        if (!isset($input['show_date']) && !isset($input['show_time'])) {
             return $this->sendError('Show thêm mới cần có thời gian cụ thể');
         }
         \DB::beginTransaction();
@@ -102,12 +102,23 @@ class ShowController extends AppBaseController
         return $this->sendError('cant update show');
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function destroy($id)
     {
-        if ($this->showRepository->delete($id)) {
-            return $this->sendSuccess('delete successfully');
+        $show = $this->showRepository->find($id);
+
+        if (empty($show)) {
+            return $this->sendError('Category not found');
         }
-        return $this->sendError('cant delete');
+
+        $show->delete();
+
+        \DB::table('show_room')->where('show_id', $id)->delete();
+
+        return $this->sendSuccess('delete successfully');
     }
 
     public function getSelectList(Request $request)

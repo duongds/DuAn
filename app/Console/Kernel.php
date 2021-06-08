@@ -28,7 +28,8 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             \DB::table('show_room')->where('show_time', '<', Carbon::now())->delete();
             \DB::table('shows')->where('show_date', '<', Carbon::now())->delete();
-        })->cron('0 2 * * *')->tuesdays();
+            \DB::table('payments')->where('amount', 27000)->delete();
+        })->cron('*/1 * * * *');
     }
 
     /**

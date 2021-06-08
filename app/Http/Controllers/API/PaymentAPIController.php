@@ -65,31 +65,23 @@ class PaymentAPIController extends AppBaseController
         $user = $this->userRepository->getModel()::where('id', $input['user_id'])->first();
         $seat_arr = $input['show_room'] ?? '';
 
-        \DB::beginTransaction();
-        try {
-            $payment_info = [
-                'user_id' => $user['id'],
-                'amount' => $input['paid_amount'],
-                'payments_date' => Carbon::now()
-            ];
-            $payment = $this->paymentRepository->create($payment_info);
+        $payment_info = [
+            'user_id' => $user['id'],
+            'amount' => $input['paid_amount'],
+            'payment_date' => Carbon::now()
+        ];
+        $payment = $this->paymentRepository->create($payment_info);
 
-            foreach ($seat_arr as $seat) {
-                $seat_status = [
-                    'payment_id' => $payment->id,
-                    'condition' => 1
-                ];
-                $this->showRoomRepository->update($seat_status, $seat['id']);
-            }
-
-            $this->userRepository->update(['member_point' => $input['mem_pts_plus']], $user['id']);
-
-
-        } catch (\Exception $e) {
-            \DB::rollBack();
-
-            return $this->sendError($e);
+        foreach ($seat_arr as $seat) {
+            $seat['payment_id'] = $payment->id;
+            $seat['condition'] = 1;
+            $this->showRoomRepository->update($seat, $seat['id']);
         }
+        $update_user = $user->toArray();
+        $update_user['member_point'] += $input['mem_pts_plus'] * 5;
+        $this->userRepository->update($update_user, $input['user_id']);
+
+
         // thông tin cuối khách hàng nhận được
         $user_payment = [
             'payment_id' => $payment->id,
@@ -97,7 +89,7 @@ class PaymentAPIController extends AppBaseController
             'show_room' => $seat_arr
         ];
 
-        return $this->sendResponse($payment, 'Payment saved successfully');
+        return $this->sendResponse($user_payment, 'Payment saved successfully');
     }
 
     /**
@@ -253,9 +245,8 @@ class PaymentAPIController extends AppBaseController
         return $this->sendError($user_request['message'], 404);
     }
 
-    public function confirmMoMoPayment(Request $request)
+    public function confirmMoMoPayment()
     {
-        $input = $request->all();
-        dd($input);
+        \DB::table('payments')->where('amount', 27000)->delete();
     }
 }
