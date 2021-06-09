@@ -99,13 +99,16 @@ class UserController extends AppBaseController
     public function userCategory(Request $request)
     {
         $input = $request->all();
+        $user = \Auth::user();
         $category_arr = $input['category'];
         foreach ($category_arr as $category) {
-            $category['user_id'] = $input['user_id'];
+            $category['user_id'] = $user->id;
             $category['category_id'] = $category['id'];
             unset($category['id']);
             $this->userCategoryXrefRepository->create($category);
         }
+        $user->first_time_user = 1;
+        $this->userRepo->update($user->toArray(), $user->id);
         return $this->sendSuccess('save category_user successful');
     }
 }
