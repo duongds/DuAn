@@ -4,7 +4,6 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,22 +13,18 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\ClearTable::class
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
-            \DB::table('show_room')->where('show_time', '<', Carbon::now())->delete();
-            \DB::table('shows')->where('show_date', '<', Carbon::now())->delete();
-            \DB::table('payments')->where('amount', 27000)->delete();
-        })->cron('*/1 * * * *');
+        $schedule->call('command:clear')->cron('0 0 * * *');
     }
 
     /**
@@ -39,7 +34,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
