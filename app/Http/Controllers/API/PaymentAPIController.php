@@ -6,8 +6,11 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreatePaymentAPIRequest;
 use App\Http\Requests\API\UpdatePaymentAPIRequest;
 use App\Models\Payment;
+use App\Models\UserCategoryXref;
 use App\Repositories\PaymentRepository;
+use App\Repositories\ProductRepository;
 use App\Repositories\ShowRoomRepository;
+use App\Repositories\UserCategoryXrefRepository;
 use App\Repositories\UserRepository;
 use App\Utils\CommonUtils;
 use Carbon\Carbon;
@@ -25,12 +28,20 @@ class PaymentAPIController extends AppBaseController
     private $paymentRepository;
     private $showRoomRepository;
     private $userRepository;
+    private $productRepository;
+    private $userCategoryXrefRepository;
 
-    public function __construct(PaymentRepository $paymentRepo, ShowRoomRepository $showRoomRepo, UserRepository $userRepo)
+    public function __construct(PaymentRepository $paymentRepo,
+                                ShowRoomRepository $showRoomRepo,
+                                UserRepository $userRepo,
+                                ProductRepository $productRepo,
+                                UserCategoryXrefRepository $userCategoryXrefRepo)
     {
         $this->paymentRepository = $paymentRepo;
         $this->showRoomRepository = $showRoomRepo;
         $this->userRepository = $userRepo;
+        $this->productRepository = $productRepo;
+        $this->userCategoryXrefRepository = $userCategoryXrefRepo;
     }
 
     /**
@@ -62,11 +73,11 @@ class PaymentAPIController extends AppBaseController
     public function store(CreatePaymentAPIRequest $request)
     {
         $input = $request->all();
-        $user = $this->userRepository->getModel()::where('id', $input['user_id'])->first();
+        $user = \Auth::user();
         $seat_arr = $input['show_room'] ?? '';
 
         $payment_info = [
-            'user_id' => $user['id'],
+            'user_id' => $user->id,
             'amount' => $input['paid_amount'],
             'payment_date' => Carbon::now()
         ];
@@ -77,15 +88,22 @@ class PaymentAPIController extends AppBaseController
             $seat['condition'] = 1;
             $this->showRoomRepository->update($seat, $seat['id']);
         }
+        $product = $this->productRepository->find($input['product_id'])->toArray();
+        $category_product = $product['category'];
+        foreach($category_product as $category){
+            $recommend = UserCategoryXref::where('user_id', $user->id)->where('category_id', $category['id'])->first()->toArray();
+            $recommend['count']++;
+            $this->userCategoryXrefRepository->update($recommend, $recommend['id']);
+        }
         $update_user = $user->toArray();
         $update_user['member_point'] += $input['mem_pts_plus'] * 5;
-        $this->userRepository->update($update_user, $input['user_id']);
+        $this->userRepository->update($update_user, $user->id);
 
 
         // thông tin cuối khách hàng nhận được
         $user_payment = [
             'payment_id' => $payment->id,
-            'user' => $user['name'],
+            'user' => $user->name,
             'show_room' => $seat_arr
         ];
 

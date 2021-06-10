@@ -72,6 +72,10 @@ abstract class BaseRepository
     {
         $this->query = $this->model->newQuery();
 
+        if (method_exists($this, 'beforeAllQuery')) {
+            $this->beforeAllQuery();
+        }
+
         return $this->query->find($id, $columns);
     }
 
@@ -202,7 +206,7 @@ abstract class BaseRepository
      * @param array $orders
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate($search = [],$perPage=1, $columns = ['*'], $orders = [])
+    public function paginate($search = [], $perPage = 1, $columns = ['*'], $orders = [])
     {
         if ($columns == null) {
             if (!empty($this->fieldInList)) {
@@ -282,11 +286,11 @@ abstract class BaseRepository
 
     public function uploadImage($path, $file, $old_data = null)
     {
-        if (!is_null($old_data) && is_file(public_path() . $old_data)){
+        if (!is_null($old_data) && is_file(public_path() . $old_data)) {
             unlink(public_path() . $old_data);
         }
         $filename = $file->getClientOriginalName();
-        $name = '/storage/image/' . $path .'/' . $filename;
+        $name = '/storage/image/' . $path . '/' . $filename;
         $file->move(public_path() . '/storage/image/' . $path . '/', $filename);
         return $name;
     }

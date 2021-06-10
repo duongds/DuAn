@@ -62,7 +62,6 @@ class Payment extends Model
      * @var array
      */
     public static $rules = [
-        'user_id' => 'required|integer',
         'show_id' => 'required|integer',
     ];
 
