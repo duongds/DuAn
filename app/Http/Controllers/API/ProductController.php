@@ -54,15 +54,15 @@ class ProductController extends AppBaseController
 
         $category_arr = Category::whereIn('name', $input['category'])->pluck('id')->toArray();
         unset($input['category']);
-        $img_arr = ['jpeg','png','jpg','gif','svg'];
+        $img_arr = ['jpeg', 'png', 'jpg', 'gif', 'svg'];
         $is_image = false;
-        foreach ($img_arr as $img){
-            if (strpos($input['poster'], $img)){
+        foreach ($img_arr as $img) {
+            if (strpos($input['poster'], $img)) {
                 $is_image = true;
                 break;
             }
         }
-        if (!$is_image){
+        if (!$is_image) {
             return $this->sendError('Định dạng file gửi lên phải là ảnh');
         }
 
@@ -152,16 +152,22 @@ class ProductController extends AppBaseController
         return $this->sendResponse($data, 'get product successfully');
     }
 
-    public function saveImage(Request $request){
+    public function saveImage(Request $request)
+    {
         $input = $request->except(['limit', 'skip']);
-        if (!isset($input['old_poster'])){
+        if (!isset($input['old_poster'])) {
             $input['old_poster'] = '';
         }
         $file = $request->file('poster');
-        return  $this->productRepo->uploadImage('product', $file, $input['old_poster']);
+        return $this->productRepo->uploadImage('product', $file, $input['old_poster']);
     }
 
-    public function  recommendFilm (){
-        return $this->productRepo->recommendProduct();
+    public function recommendFilm()
+    {
+        $user = \Auth::user();
+
+        $recommend_film = $this->productRepo->recommendProduct($user->id);
+
+        return $this->sendResponse($recommend_film, 'get recommend list success');
     }
 }
