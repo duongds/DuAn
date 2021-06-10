@@ -21,7 +21,8 @@ class Product extends Model
         'actor',
         'like',
         'film_description',
-        'film_status'
+        'film_status',
+        'language'
     ];
 
     public static $rules = [

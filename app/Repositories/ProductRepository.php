@@ -24,6 +24,7 @@ class ProductRepository extends BaseRepository
         'like',
         'film_description',
         'film_status',
+        'language',
     ];
 
     protected $fieldOrder = [
