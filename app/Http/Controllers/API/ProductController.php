@@ -176,7 +176,7 @@ class ProductController extends AppBaseController
     {
         $input = $request->all();
         $user = \Auth::user();
-        if (!is_null($user)) {
+        if (!is_null($user) && isset($input['product_id'])) {
             $selected_product = $this->productRepo->find($input['product_id']);
             $selected_product->like++;
             $product = $this->productRepo->update($selected_product->toArray(), $input['product_id']);

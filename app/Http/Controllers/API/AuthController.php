@@ -104,4 +104,18 @@ class AuthController extends AppBaseController
 
         return $this->sendSuccess('Thay đổi mật khẩu thành công');
     }
+
+    public function forgetPassword(Request $request)
+    {
+        $input = $request->except(['skip', 'limit']);
+        $user = User::where('email', $input['email'])->first();
+        if (!is_null($user)) {
+            if ($input['new_password'] != $input['new_confirm_password']) {
+                return $this->sendError('Password mới và confirm password không khớp.');
+            }
+            $user->update(['password' => Hash::make($input['new_password'])]);
+            return $this->sendSuccess("thay đổi giao diện thành công.");
+        }
+        return $this->sendError("Tài khoản không tồn tại");
+    }
 }

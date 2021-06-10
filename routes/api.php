@@ -48,6 +48,7 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 
+Route::post('/forget_password', [\App\Http\Controllers\API\AuthController::class, 'forgetPassword']);
 Route::prefix('select-list')->group(function () {
     Route::get('/product', [\App\Http\Controllers\API\ProductController::class, 'getSelectList']);
     Route::get('/show', [\App\Http\Controllers\API\ShowController::class, 'getSelectList']);
