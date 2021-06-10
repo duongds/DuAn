@@ -170,4 +170,19 @@ class ProductController extends AppBaseController
 
         return $this->sendResponse($recommend_film, 'get recommend list success');
     }
+
+
+    public function like(Request $request)
+    {
+        $input = $request->all();
+        $user = \Auth::user();
+        if (!is_null($user)) {
+            $selected_product = $this->productRepo->find($input['product_id']);
+            $selected_product->like++;
+            $product = $this->productRepo->update($selected_product->toArray(), $input['product_id']);
+            return $this->sendResponse($product->toArray(), 'Save like success');
+        }
+        return $this->sendError('user not logged in yet', 404);
+
+    }
 }

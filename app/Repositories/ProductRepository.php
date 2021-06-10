@@ -74,7 +74,9 @@ class ProductRepository extends BaseRepository
         $listId = $listId->pluck('category_id')->toArray();
         $products = Product::whereHas('category', function ($query) use ($listId) {
             $query->whereIn('category.id', $listId);
-        })->get();
+        })->with(['category' => function ($query) {
+            $query->select('category.id', 'category.name', 'product_category_xref.product_id', 'product_category_xref.category_id');
+        }])->get();
         return $products;
     }
 
