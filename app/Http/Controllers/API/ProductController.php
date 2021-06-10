@@ -68,6 +68,7 @@ class ProductController extends AppBaseController
 
         $film_link = substr($input['film_trailer'], strpos($input['film_trailer'], 'youtube'), 31);
         $input['film_trailer'] = str_replace('/watch?v=', '/embed/', $film_link);
+        $input['film_trailer'] = 'https://www.' . $input['film_trailer'];
 
         \DB::beginTransaction();
         try {
@@ -134,7 +135,7 @@ class ProductController extends AppBaseController
 
         $film_link = substr($input['film_trailer'], strpos($input['film_trailer'], 'youtube'), 31);
         $input['film_trailer'] = str_replace('/watch?v=', '/embed/', $film_link);
-
+        $input['film_trailer'] = 'https://www.' . $input['film_trailer'];
         \DB::beginTransaction();
         try {
             $data = $this->productRepo->update($input, $id);
