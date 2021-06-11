@@ -83,11 +83,11 @@ class PaymentAPIController extends AppBaseController
         ];
         $payment = $this->paymentRepository->create($payment_info);
 
-//        foreach ($seat_arr as $seat) {
-//            $seat['payment_id'] = $payment->id;
-//            $seat['condition'] = 1;
-//            $this->showRoomRepository->update($seat, $seat['id']);
-//        }
+        foreach ($seat_arr as $seat) {
+            $seat['payment_id'] = $payment->id;
+            $seat['condition'] = 1;
+            $this->showRoomRepository->update($seat, $seat['id']);
+        }
         $product = $this->productRepository->find($input['product_id'])->toArray();
         $category_product = $product['category'];
         foreach($category_product as $category){
