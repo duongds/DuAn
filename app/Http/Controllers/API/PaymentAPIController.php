@@ -83,11 +83,11 @@ class PaymentAPIController extends AppBaseController
         ];
         $payment = $this->paymentRepository->create($payment_info);
 
-        foreach ($seat_arr as $seat) {
-            $seat['payment_id'] = $payment->id;
-            $seat['condition'] = 1;
-            $this->showRoomRepository->update($seat, $seat['id']);
-        }
+//        foreach ($seat_arr as $seat) {
+//            $seat['payment_id'] = $payment->id;
+//            $seat['condition'] = 1;
+//            $this->showRoomRepository->update($seat, $seat['id']);
+//        }
         $product = $this->productRepository->find($input['product_id'])->toArray();
         $category_product = $product['category'];
         foreach($category_product as $category){
@@ -99,11 +99,11 @@ class PaymentAPIController extends AppBaseController
         $update_user['member_point'] += $input['mem_pts_plus'] * 5;
         $this->userRepository->update($update_user, $user->id);
 
-
         // thông tin cuối khách hàng nhận được
         $user_payment = [
             'payment_id' => $payment->id,
             'user' => $user->name,
+            'product' => $product['film_name'],
             'show_room' => $seat_arr
         ];
 
